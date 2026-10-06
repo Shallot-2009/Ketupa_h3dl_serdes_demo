@@ -22,19 +22,29 @@ An HFSS 3D Layout automation demo for 112G/224G SerDes channel studies, covering
 
 ## Quick start
 
-Use the [matching launch-v1 Linux Runtime](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/serdes-v1.0.1-launch-v1). Older Runtimes do not implement the required launch authorization interface, even if they also use Python 3.12. Obtain a legitimate license separately; no license or activation data is included in this package.
+Use the [matching launch-v1 Linux Runtime update](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/serdes-v1.0.1-launch-v1). The approximately 4.5 MiB delta requires Runtime 1.0.0 build `20261006T120047Z` and produces exactly the same file hashes as the qualified full Runtime, without removing functionality. Older Runtimes need this authorization-interface update even if they use Python 3.12. Obtain a legitimate license separately; no license or activation data is included.
 
 ```bash
-sha256sum -c Ketupa-Runtime-1.0.0-Linux-x64-launch-v1-cp312.tar.gz.sha256
-tar -xzf Ketupa-Runtime-1.0.0-Linux-x64-launch-v1-cp312.tar.gz
-cd Ketupa-Runtime-1.0.0-Linux-x64-launch-v1-cp312
-sh install.sh --check-only
-sudo sh install.sh --user "$USER"
-# Add --upgrade for an existing installation at this path; activation is retained.
+sha256sum -c Ketupa-Runtime-1.0.0-launch-v1-cp312-update.tar.gz.sha256
+tar -xzf Ketupa-Runtime-1.0.0-launch-v1-cp312-update.tar.gz
+cd Ketupa-Runtime-1.0.0-launch-v1-cp312-update
+sudo python3 -I runtime_update.py --user "$USER" --check-only
+sudo python3 -I runtime_update.py --user "$USER"
 ketupa license machine
+# Activate only on a new machine; do not reactivate an already valid license.
 sudo ketupa license activate /absolute/path/to/your-authorized.lic --mac YOUR_MAC
 ketupa license status
 ```
+
+**New machines without a Runtime:** download `Ketupa-Runtime-1.0.0-Linux-x64.tar.gz` from the [base Runtime 1.0.0 release](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/runtime-v1.0.0), verify SHA-256 `4324c26b0d6e47da63892eef59a910c0f8b7bf66388799171245a3dd1d170b65`, install it, then apply the update above:
+
+```bash
+tar -xzf Ketupa-Runtime-1.0.0-Linux-x64.tar.gz
+sudo mkdir -p /home/EDA
+sudo ./Ketupa-Runtime-1.0.0-Linux-x64/install /home/EDA/openketupa-runtime-linux --add-path
+```
+
+The updater materializes and verifies a complete environment before replacing the installation, retaining the old Runtime backup and activation. Mismatched baselines or services owned by another installation are rejected. Here `python3` runs only the public installer; it does not bypass project authorization.
 
 The Demo is in `serdes_linux/`. Configure `script/extractors/cds_env` as described below, then run:
 
