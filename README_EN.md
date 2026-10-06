@@ -116,8 +116,8 @@ Package:
 1.0 mm / 110 GHz coaxial connector, not a standard SMA model:
 ![Connector](assets/hfss-serdes-connector-3d.jpg)
 
-Left: bump, ball and stackup illustration, not to scale. Right: connector side screenshot.
-![Side structure](assets/hfss-serdes-side-structure.png)
+Side view of the Merge model in AEDT 2026 R1, showing the connector, PCB and package. Exported directly from the current model viewport; no solve was performed.
+![Merge model side view](assets/hfss-serdes-side-view.png)
 
 ## Output
 

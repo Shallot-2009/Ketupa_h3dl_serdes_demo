@@ -116,8 +116,8 @@ PKG：
 1.0 mm / 110 GHz 同轴连接器，并非标准 SMA 型号：
 ![连接器](assets/hfss-serdes-connector-3d.jpg)
 
-左侧为 bump、ball 和叠层的结构示意，右侧为连接器侧视截图；示意图不按比例：
-![侧向结构](assets/hfss-serdes-side-structure.png)
+AEDT 2026 R1 中 Merge 模型的侧视图，展示连接器、PCB 与封装；直接从当前模型视图导出，未进行求解：
+![Merge 模型侧视图](assets/hfss-serdes-side-view.png)
 
 ## 输出
 
