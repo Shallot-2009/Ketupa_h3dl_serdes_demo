@@ -18,9 +18,54 @@ An HFSS 3D Layout automation demo for 112G/224G SerDes channel studies, covering
 
 *Actual model view: AEDT 2026 R1, `serdes_merge_SDS_RX0_CHIP1`, RX0. Exported directly from the saved model on 2026-10-06. This is a layout view, not a field plot or solved result.*
 
+## Quick start
+
+Download the package for your operating system and `Ketupa-Demo-30-Day-Trial.lic` from the [Runtime 1.0.0 preview release](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/runtime-v1.0.0).
+
+Windows: run `Ketupa-Runtime-1.0.0-Windows-x64-Setup.exe`, reopen the terminal, then run:
+
+```powershell
+ketupa license machine
+ketupa license activate .\Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
+ketupa license status
+```
+
+Ubuntu/Debian:
+
+```bash
+sudo apt install ./ketupa-runtime-installer_1.0.0_amd64.deb
+ketupa license machine
+sudo ketupa license activate ./Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
+ketupa license status
+```
+
+Other compatible x86_64 Linux distributions:
+
+```bash
+tar -xzf Ketupa-Runtime-1.0.0-Linux-x64.tar.gz
+cd Ketupa-Runtime-1.0.0-Linux-x64
+sudo sh install.sh /opt/ketupa-runtime /var/lib/openketupa-license
+ketupa license machine
+sudo ketupa license activate ../Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
+ketupa license status
+```
+
+The Demo is in `serdes_linux/`. Configure `script/extractors/cds_env` as described below, then run:
+
+```bash
+cd serdes_linux
+ketupa run -sh main.py -- doctor
+ketupa run -sh main.py -- --dry-run
+ketupa run -sh main.py
+```
+
+> The trial license is provided only to evaluate this Demo; use constitutes acceptance of the repository [LICENSE](LICENSE). The workflow calls third-party EDA software such as Ansys and Cadence. You must install that software and confirm that you hold the required legal EDA licenses. The Ketupa trial license does not include any third-party EDA license.
+
+> The native modules in this Demo require **CPython 3.12**. Runtime 1.0.0 for Linux uses CPython 3.13 and therefore cannot directly serve as this Demo's interpreter. Point `script/extractors/cds_env` to a compatible CPython 3.12 Ketupa environment. The Windows Runtime deploys the Windows Ketupa environment, but this repository's Linux `.so` Demo does not run on Windows.
+
 ## 1. Scope and delivered files
 
-This repository delivers a runnable Linux native demo containing **PCB, PKG, and Merge** workflows. `linux/main.py` remains editable, as do the extraction and preprocessing rules under `linux/script/`. The modeling core, workflow implementations, and resource policy are distributed as **119 CPython 3.12 native `.so` extensions** under `linux/lib/`, `linux/modules/`, and `linux/resource/`.
+This repository delivers a runnable Linux native demo containing **PCB, PKG, and Merge** workflows. `serdes_linux/main.py` remains editable, as do the extraction and preprocessing rules under `serdes_linux/script/`. The modeling core, workflow implementations, and resource policy are distributed as **119 CPython 3.12 native `.so` extensions** under `serdes_linux/lib/`, `serdes_linux/modules/`, and `serdes_linux/resource/`.
 
 ```text
 Ketupa_h3dl_serdes_demo/
@@ -29,7 +74,7 @@ Ketupa_h3dl_serdes_demo/
 ├── LICENSE                       Proprietary Demo evaluation license
 ├── SHA256SUMS                    Release integrity manifest
 ├── assets/                       Actual HFSS views and a parameter-based structure diagram
-└── linux/                        Run all commands from this directory
+└── serdes_linux/                Run all commands from this directory
     ├── main.py                   Workflow, input, mode, and concurrency settings
     ├── input/
     │   ├── PCB/                  BRD, stackup, netlist, and placement workbook
@@ -64,10 +109,10 @@ Confirm that `ketupa --help` works first. If the launcher is not installed, cont
 git clone https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo.git
 cd Ketupa_h3dl_serdes_demo
 sha256sum -c SHA256SUMS
-cd linux
+cd serdes_linux
 ```
 
-For GitHub **Code → Download ZIP**, extract the entire repository before entering `linux/`. Do not download only `main.py`; all spreadsheets, AEDB contents, and native extensions are required.
+For GitHub **Code → Download ZIP**, extract the entire repository before entering `serdes_linux/`. Do not download only `main.py`; all spreadsheets, AEDB contents, and native extensions are required.
 
 On a new workstation, edit exactly these three paths in `script/extractors/cds_env`:
 
@@ -81,7 +126,7 @@ The shipped `/home/EDA/...` values are workstation examples, not portable defaul
 
 ## 4. Recommended command sequence
 
-Run every command below from `linux/`. The first `--` forwards subsequent arguments to the project entry point.
+Run every command below from `serdes_linux/`. The first `--` forwards subsequent arguments to the project entry point.
 
 ```bash
 ketupa run -sh main.py -- list
@@ -200,7 +245,7 @@ Every image is expanded directly on the repository page so that the modeling bou
 
 ## 7. Output, verification, and troubleshooting
 
-Runtime artifacts are created under `linux/output/`; old output is not part of the published repository:
+Runtime artifacts are created under `serdes_linux/output/`; old output is not part of the published repository:
 
 ```text
 output/
@@ -221,7 +266,7 @@ ketupa run -sh main.py -- export serdes merge --project /absolute/path/channel.a
 **Verification scope on 2026-10-06:**
 
 - The core contains 119 `.so` files and no core `.py/.pyc`; the native tamper-rejection test passed.
-- All seven PCB/PKG/Merge selection combinations passed dry-run. Audit and input resolution passed again after relocation into this repository's `linux/` directory.
+- All seven PCB/PKG/Merge selection combinations passed dry-run. Audit and input resolution passed again after relocation into this repository's `serdes_linux/` directory.
 - One RX0 group in each scenario built successfully with AEDT 2026 R1. Saved four-port names, order, impedance, and references matched the corresponding source implementation; reopening each model returned `1` from `ValidateCircuit()`.
 - The native default Merge workflow built both RX and TX groups through the real `ketupa run -sh main.py` launcher: 2 completed, 0 failed.
 - **Not validated:** a complete Mode 1 solve, mesh convergence, electrical signoff, AEDT 2025 on an actual installation, Windows/ARM, or every Linux distribution.

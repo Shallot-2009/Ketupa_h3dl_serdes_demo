@@ -18,6 +18,51 @@
 
 *真实工程视图：AEDT 2026 R1，`serdes_merge_SDS_RX0_CHIP1`，RX0。该图于 2026-10-06 从已保存工程直接导出，是布局视图，不是场分布图或求解结果。*
 
+## 快速开始
+
+在 [Runtime 1.0.0 预览版](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/runtime-v1.0.0) 下载对应系统的安装包和 `Ketupa-Demo-30-Day-Trial.lic`。
+
+Windows：运行 `Ketupa-Runtime-1.0.0-Windows-x64-Setup.exe`，重新打开终端，然后执行：
+
+```powershell
+ketupa license machine
+ketupa license activate .\Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
+ketupa license status
+```
+
+Ubuntu/Debian：
+
+```bash
+sudo apt install ./ketupa-runtime-installer_1.0.0_amd64.deb
+ketupa license machine
+sudo ketupa license activate ./Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
+ketupa license status
+```
+
+其他兼容的 x86_64 Linux：
+
+```bash
+tar -xzf Ketupa-Runtime-1.0.0-Linux-x64.tar.gz
+cd Ketupa-Runtime-1.0.0-Linux-x64
+sudo sh install.sh /opt/ketupa-runtime /var/lib/openketupa-license
+ketupa license machine
+sudo ketupa license activate ../Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
+ketupa license status
+```
+
+Demo 位于 `serdes_linux/`，按下文配置 `script/extractors/cds_env` 后运行：
+
+```bash
+cd serdes_linux
+ketupa run -sh main.py -- doctor
+ketupa run -sh main.py -- --dry-run
+ketupa run -sh main.py
+```
+
+> 试用许可仅用于本 Demo 评估，使用即表示接受仓库 [LICENSE](LICENSE)。工作流会调用 Ansys、Cadence 等第三方 EDA，用户须自行安装并确认拥有合法的软件及 EDA 许可；Ketupa 试用许可不包含第三方 EDA 许可。
+
+> 当前 Demo 的原生模块要求 **CPython 3.12**。Runtime 1.0.0 Linux 安装包采用 CPython 3.13，不能直接作为本 Demo 的解释器；运行 Demo 时请在 `script/extractors/cds_env` 中指定兼容的 CPython 3.12 Ketupa 环境。Windows Runtime 可用于 Windows Ketupa 环境部署，但本仓库的 Linux `.so` Demo 不能在 Windows 上运行。
+
 ## 中文使用指南
 
 ### 1. 项目定位与交付内容
@@ -31,7 +76,7 @@ Ketupa_h3dl_serdes_demo/
 ├── LICENSE                       专有 Demo 评估许可
 ├── SHA256SUMS                    发布文件校验清单
 ├── assets/                       实际 HFSS 视图与参数化结构说明图
-└── linux/                        进入此目录运行
+└── serdes_linux/                进入此目录运行
     ├── main.py                   场景、输入、模式、并发配置
     ├── input/
     │   ├── PCB/                  BRD、叠层、网络和放置 Excel
@@ -66,10 +111,10 @@ Demo 的 PCB/PKG 版图、配套 Excel、叠层和连接器文件全部保留。
 git clone https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo.git
 cd Ketupa_h3dl_serdes_demo
 sha256sum -c SHA256SUMS
-cd linux
+cd serdes_linux
 ```
 
-也可使用 GitHub **Code → Download ZIP**，完整解压后进入 `linux/`。不要只下载 `main.py`，不要漏掉 Excel、`.aedb` 内容或隐藏在子目录中的原生扩展。
+也可使用 GitHub **Code → Download ZIP**，完整解压后进入 `serdes_linux/`。不要只下载 `main.py`，不要漏掉 Excel、`.aedb` 内容或隐藏在子目录中的原生扩展。
 
 首次部署只需按实际安装位置编辑 `script/extractors/cds_env` 的三个路径：
 
@@ -83,7 +128,7 @@ KETUPA_ANSYSEDT=/your/ansys/AnsysEM
 
 ### 4. 推荐运行顺序
 
-以下所有命令均在 `linux/` 下执行。`--` 将后续参数传给项目入口。
+以下所有命令均在 `serdes_linux/` 下执行。`--` 将后续参数传给项目入口。
 
 ```bash
 ketupa run -sh main.py -- list
@@ -202,7 +247,7 @@ C4 为 Flip-Chip / chip-down，沿用库参数：**高度 60 µm、半径 65 µm
 
 ### 7. 输出位置、验收与排错
 
-运行时在 `linux/output/` 创建任务记录和结果，发布仓库不包含旧 output：
+运行时在 `serdes_linux/output/` 创建任务记录和结果，发布仓库不包含旧 output：
 
 ```text
 output/
@@ -223,7 +268,7 @@ ketupa run -sh main.py -- export serdes merge --project /absolute/path/channel.a
 **验证范围（2026-10-06）：**
 
 - 原生核心 119 个 `.so`；无核心 `.py/.pyc`；核心篡改拒绝检查通过。
-- PCB/PKG/Merge 七种组合 dry-run 通过，迁移到本仓库 `linux/` 后审计和输入检查通过。
+- PCB/PKG/Merge 七种组合 dry-run 通过，迁移到本仓库 `serdes_linux/` 后审计和输入检查通过。
 - AEDT 2026 R1 三场景各 RX0 的 Mode 0 建模成功；保存工程的四端口名称、顺序、阻抗和参考网与对应源码结果一致；重新打开后 `ValidateCircuit()` 均返回 `1`。
 - 原生包默认 Merge 的 RX/TX 两组通过实际 `ketupa run -sh main.py` 建模，2 成功、0 失败。早先启动器目录权限问题已不再阻止该次运行。
 - **未验证：**完整 Mode 1 求解、网格收敛与电气 signoff、AEDT 2025 实机、Windows/ARM/其他 Linux 发行版组合。
