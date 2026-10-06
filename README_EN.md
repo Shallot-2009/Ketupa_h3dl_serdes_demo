@@ -10,7 +10,7 @@ Contact: asenjoaupa@gmail.com · 3405802009@qq.com
 
 ## Requirements and downloads
 
-Requires licensed Ketupa with `ketupa-launch-v1`, Ansys Electronics Desktop and Cadence SPB. The native modules support Linux CPython 3.12 only, not Windows or Python 3.13.
+Requires licensed Ketupa with `ketupa-launch-v1`, Ansys Electronics Desktop and Cadence SPB. Runtime environment: Linux x86_64 / CPython 3.12.
 
 [Runtime installers](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/runtime-v1.0.0):
 

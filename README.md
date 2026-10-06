@@ -10,7 +10,7 @@
 
 ## 环境与下载
 
-需要有效授权的 Ketupa（`ketupa-launch-v1`）、Ansys Electronics Desktop 和 Cadence SPB。当前原生模块仅支持 Linux CPython 3.12，不能用于 Windows 或 Python 3.13。
+需要有效授权的 Ketupa（`ketupa-launch-v1`）、Ansys Electronics Desktop 和 Cadence SPB。运行环境：Linux x86_64 / CPython 3.12。
 
 [Runtime 安装包](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/runtime-v1.0.0)：
 
