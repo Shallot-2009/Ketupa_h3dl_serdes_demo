@@ -51,6 +51,7 @@ Demo 位于 `serdes_linux/`，按下文配置 `script/extractors/cds_env` 后运
 ```bash
 cd serdes_linux
 ketupa run -sh main.py -- doctor
+ketupa run -sh main.py -- preprocess serdes all -- --force
 ketupa run -sh main.py -- --dry-run
 ketupa run -sh main.py
 ```
@@ -75,8 +76,8 @@ Ketupa_h3dl_serdes_demo/
 └── serdes_linux/                进入此目录运行
     ├── main.py                   场景、输入、模式、并发配置
     ├── input/
-    │   ├── PCB/                  BRD、叠层、网络和放置 Excel
-    │   ├── PKG/                  SIP/AEDB、叠层、网络 Excel
+    │   ├── PCB/                  BRD、叠层；网络/放置 Excel 首次运行时生成
+    │   ├── PKG/                  SIP/AEDB、叠层；网络 Excel 首次运行时生成
     │   └── Connector/            连接器 A3DCOMP
     ├── script/                   开放的提取、分类、预处理代码
     │   └── extractors/cds_env    首次部署的三个工具路径
@@ -85,7 +86,7 @@ Ketupa_h3dl_serdes_demo/
     └── resource/                 原生资源与模型策略
 ```
 
-Demo 的 PCB/PKG 版图、配套 Excel、叠层和连接器文件全部保留。第三方 EDA 安装及有效授权需自行准备。本包不包含其他九种工作流，也不提供 Windows `.pyd`。
+Demo 的 PCB/PKG 版图、叠层和连接器文件保留。2026-10-07 的 main 分支更新不附三份 Excel 及其来源记录，首次建模前必须预处理生成；`main.py`、142 个原生扩展与 Runtime ABI 不变。第三方 EDA 安装及有效授权需自行准备。本包不包含其他九种工作流，也不提供 Windows `.pyd`。历史 Release 标签及附件是固定快照，不等同于当前 main 分支。
 
 ### 2. 环境要求
 
@@ -110,7 +111,7 @@ sha256sum -c SHA256SUMS
 cd serdes_linux
 ```
 
-也可使用 GitHub **Code → Download ZIP**，完整解压后进入 `serdes_linux/`。不要只下载 `main.py`，不要漏掉 Excel、`.aedb` 内容或隐藏在子目录中的原生扩展。
+也可使用 GitHub **Code → Download ZIP**，完整解压后进入 `serdes_linux/`。不要只下载 `main.py`，不要漏掉版图、`.aedb` 内容或子目录中的原生扩展；Excel 按下文首次预处理生成。
 
 首次部署只需按实际安装位置编辑 `script/extractors/cds_env` 的三个路径：
 
@@ -130,6 +131,7 @@ KETUPA_ANSYSEDT=/your/ansys/AnsysEM
 ketupa run -sh main.py -- list
 ketupa run -sh main.py -- doctor
 ketupa run -sh main.py -- audit
+ketupa run -sh main.py -- preprocess serdes all -- --force
 ketupa run -sh main.py -- --dry-run
 ketupa run -sh main.py
 ```
@@ -180,7 +182,7 @@ INPUTS["serdes-pkg"] = {
 | `corps: "\\"` | 不增加额外合组 |
 | `parallel_groups: ""` | 全部匹配组；单组示例为 `"ALL\|SDS_RX0"`（实际字符串不含转义符） |
 | `max_workers: None` | 使用自动策略；改为 `1` 可限制资源占用，仍有内存保护 |
-| `preprocess: False` | 直接用 Demo 已附 Excel；替换输入、需要重提取时设为 `True` |
+| `preprocess: False` | 使用已在本机生成的 Excel，不会自动补表；首次运行须先执行下面的预处理命令 |
 | `preprocess_entry: "sh"` | Linux 预处理入口 |
 | `signoff: False` | 默认不自动生成签核汇总；TBD 指标不得宣称电气 PASS |
 
@@ -198,11 +200,13 @@ ketupa run -sh main.py -- run --help
 
 ### 6. 数据预处理与端口边界
 
-Demo 已附三份 Excel 及其来源记录。首次运行不需要重提取；更换版图后必须更新输入并检查分类结果，不能沿用另一份设计的表。
+**2026-10-07 更新验证：**无 Excel 的干净副本成功预处理；audit、doctor、全部七种组合 dry-run 通过；AEDT 2026 R1 下 PCB、PKG、Merge 各完成 RX/TX 两组 Mode 0 建模，共 6 成功、0 失败；直接 Python 被授权检查拒绝。未执行 Mode 1 求解或电气签核。预处理的 shared-memory IPC 兼容提示回退普通 gRPC 后完成。新增的 `03_Verify.py`、`04_Publish.py` 按本地原样同步，帮助入口已检查；其中维护者构建功能需要源码工程和编译依赖，本次未重新编译核心。
+
+本次分发不附三份 Excel 及其来源记录。首次运行必须从随包版图生成 PCB 网络表、PCB 放置表和 PKG 网络表，再执行 dry-run 和建模。更换版图后必须更新输入并检查分类结果，不能沿用另一份设计的表。
 
 ```bash
-bash script/00_Preprocess.sh
-# 按交互提示选择 serdes、all、Y 等
+ketupa run -sh main.py -- preprocess serdes all -- --force
+ketupa run -sh main.py -- --dry-run
 # 或在执行保存的工作流之前自动预处理：
 ketupa run -sh main.py -- --preprocess-first
 ```
@@ -274,7 +278,7 @@ ketupa run -sh main.py -- export serdes merge --project /absolute/path/channel.a
 | 现象 | 处理 |
 |---|---|
 | `KETUPA_AUTH_REQUIRED` | 使用配套 launch-v1 Runtime 和有效许可证，通过 `ketupa run -sh main.py` 启动；重命名 Python、复制环境变量不能授权。 |
-| `pcb_netlist ... not found: [managed resource]` | 检查 main 指向的三份 Excel 是否完整；重新下载缺失文件，或对匹配版图重新预处理。默认 `preprocess=False` 不会自动补表。 |
+| `pcb_netlist ... not found: [managed resource]` | 本次不附 Excel；先执行 `ketupa run -sh main.py -- preprocess serdes all -- --force`。默认 `preprocess=False` 不会自动补表。 |
 | 找不到 `.so` / import 失败 | 使用完整目录和 CPython 3.12 x86_64 环境；不要把本包拿到 Windows/其他 Python ABI 使用。 |
 | Extracta 路径/版本无法识别 | 核对 `cds_env` 的 Cadence 路径及厂商工具授权，先执行 `doctor`。 |
 | `/var/lib/openketupa-license/...` 权限拒绝 | 这是启动器的本机授权目录权限问题，由管理员恢复正确的用户组/读取/遍历权限；不要 `chmod 777` 或绕过授权。 |

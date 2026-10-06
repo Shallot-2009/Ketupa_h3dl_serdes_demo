@@ -4,11 +4,11 @@
 
 联系 / Contact: asenjoaupa@gmail.com · 3405802009@qq.com
 
-版本 / Version: v1.0.1 · cp312 · ketupa-launch-v1 · 2026-10-06
+版本 / Version: v1.0.1 · cp312 · ketupa-launch-v1 · distribution update 2026-10-07
 
 许可 / License: Proprietary. 发布二进制不等于授予源码、再分发或逆向许可；使用权由作者授权。
 
-独立的 112G/224G SerDes 工程，只包含 PCB、PKG、Merge 三种工作流。Demo 版图、叠层、Excel、连接器模型随包提供，作者已确认可公开。没有 `main_N2009.py`，不包含母项目其他九种场景。
+独立的 112G/224G SerDes 工程，只包含 PCB、PKG、Merge 三种工作流。Demo 版图、叠层、连接器模型随包提供，作者已确认可公开。本次分发不附三份 Excel 或其来源记录；首次建模前必须通过预处理在本机生成。没有 `main_N2009.py`，不包含母项目其他九种场景。
 
 ## 1. 安装与启动 / Setup
 
@@ -28,6 +28,7 @@ KETUPA_ANSYSEDT=/your/ansys/AnsysEM
 ketupa run -sh main.py -- list
 ketupa run -sh main.py -- doctor
 ketupa run -sh main.py -- audit
+ketupa run -sh main.py -- preprocess serdes all -- --force
 ketupa run -sh main.py -- --dry-run
 ketupa run -sh main.py
 ```
@@ -35,7 +36,8 @@ ketupa run -sh main.py
 - `list`：列出三个工作流。
 - `doctor`：检查 Python、Cadence、AEDT 和资源环境；干净包尚无 `output` 是正常状态。
 - `audit`：结构、配置、裁剪、C4/端口约定检查；原生包另检查核心文件完整性。
-- `--dry-run`：解析输入、网络分组、工作进程与资源计划，不启动 AEDT 建模或求解。
+- `preprocess serdes all -- --force`：首次生成 PCB 网络表、PCB 放置表和 PKG 网络表；需要正常配置并授权的 EDA 工具。
+- `--dry-run`：在预处理完成后解析输入、网络分组、工作进程与资源计划，不启动 AEDT 建模或求解。
 - 不加参数：执行 `main.py` 保存配置，默认 Merge、Mode 0。
 
 若 Ketupa 提示授权权限错误，请由管理员检查服务及用户组，不要使用 `chmod 777` 或绕过授权。必须使用支持 `ketupa-launch-v1` 的合法授权 Runtime；即使环境相同，直接 `python main.py` 也会拒绝。`PYTHON_EXE` 应指向此 Runtime 的解释器。
@@ -104,13 +106,17 @@ ketupa run -sh main.py -- run --help
 
 ## 3. 预处理 / Preprocessing
 
-Demo 已附网络/放置表，无须每次重新提取。替换版图后，应同时更新 `main.py` 输入并重新生成相应 Excel，不可沿用别的设计的表。
+本次不附网络/放置表，首次运行必须先生成。`main.py` 保持 `preprocess=False`，不会在裸命令下自动补表。替换版图后，应同时更新输入并重新生成相应 Excel，不可沿用别的设计的表。
 
 ```bash
-bash script/00_Preprocess.sh
-# 交互选择 serdes、all、Y 等，按屏幕提示输入
 ketupa run -sh main.py -- preprocess serdes all -- --force
+ketupa run -sh main.py -- --dry-run
+ketupa run -sh main.py
 ```
+
+English: The three netlist/placement workbooks and their provenance files are intentionally not shipped. After configuring and licensing the tools, run the preprocessing command above before the dry run and modeling. Keep the generated workbooks locally; they are runtime data, not part of the published package. The native core and Runtime ABI remain unchanged.
+
+2026-10-07 本次验证 / Update validation: 无 Excel 的干净副本预处理成功；audit、doctor、全部七种组合 dry-run 通过；AEDT 2026 R1 下 PCB、PKG、Merge 各完成 RX/TX 两组 Mode 0 建模（6 成功、0 失败）；直接 Python 启动按授权要求拒绝。Clean-copy preprocessing, audit, doctor, seven dry-run combinations and six Mode 0 models passed. Direct Python was rejected. No Mode 1 solve or electrical signoff was performed. 预处理出现 EDB shared-memory IPC 不支持的兼容提示，自动回退普通 gRPC 后完成。
 
 `01_Netlist` 提取/分类网络，`02_Placement` 提取 PCB 放置数据；`extractors/` 保留可编辑的网络命名与 Cadence 兼容规则。原生 AEDB 的 PKG 可通过 PyEDB 提取。多个设计共存时请看 `--help` 并明确指定设计，不应把“任意未知命名都能自动识别”视为已保证的能力。
 

@@ -51,6 +51,7 @@ The Demo is in `serdes_linux/`. Configure `script/extractors/cds_env` as describ
 ```bash
 cd serdes_linux
 ketupa run -sh main.py -- doctor
+ketupa run -sh main.py -- preprocess serdes all -- --force
 ketupa run -sh main.py -- --dry-run
 ketupa run -sh main.py
 ```
@@ -73,8 +74,8 @@ Ketupa_h3dl_serdes_demo/
 └── serdes_linux/                Run all commands from this directory
     ├── main.py                   Workflow, input, mode, and concurrency settings
     ├── input/
-    │   ├── PCB/                  BRD, stackup, netlist, and placement workbook
-    │   ├── PKG/                  SIP/AEDB, stackup, and netlist workbook
+    │   ├── PCB/                  BRD and stackup; workbooks generated on first use
+    │   ├── PKG/                  SIP/AEDB and stackup; workbook generated on first use
     │   └── Connector/            Connector A3DCOMP model
     ├── script/                   Open extraction/classification/preprocessing code
     │   └── extractors/cds_env    Three tool paths configured on first deployment
@@ -83,7 +84,7 @@ Ketupa_h3dl_serdes_demo/
     └── resource/                 Native resource and model policies
 ```
 
-The public Demo inputs include the PCB and package layouts, their spreadsheets and stackups, and the connector model. No vendor software or license, core Python source, private build artifacts, historical simulation output, separate docs bundle, the other nine parent-project workflows, or Windows `.pyd` package is included.
+The public Demo inputs include the PCB and package layouts, stackups, and connector model. The 2026-10-07 main-branch update intentionally omits three spreadsheets and their provenance records: generate them locally before modeling. The main.py configuration, 142 native extensions and Runtime ABI are unchanged. Historical Release tags and assets are fixed snapshots, not copies of the current main branch. No vendor software or license, core Python source, private build artifacts, historical simulation output, separate docs bundle, the other nine parent-project workflows, or Windows `.pyd` package is included.
 
 ## 2. Requirements and qualification boundary
 
@@ -108,7 +109,7 @@ sha256sum -c SHA256SUMS
 cd serdes_linux
 ```
 
-For GitHub **Code → Download ZIP**, extract the entire repository before entering `serdes_linux/`. Do not download only `main.py`; all spreadsheets, AEDB contents, and native extensions are required.
+For GitHub **Code → Download ZIP**, extract the entire repository before entering `serdes_linux/`. Do not download only `main.py`; retain every layout, AEDB file and native extension. Generate spreadsheets through preprocessing as described below.
 
 On a new workstation, edit exactly these three paths in `script/extractors/cds_env`:
 
@@ -128,6 +129,7 @@ Run every command below from `serdes_linux/`. The first `--` forwards subsequent
 ketupa run -sh main.py -- list
 ketupa run -sh main.py -- doctor
 ketupa run -sh main.py -- audit
+ketupa run -sh main.py -- preprocess serdes all -- --force
 ketupa run -sh main.py -- --dry-run
 ketupa run -sh main.py
 ```
@@ -178,7 +180,7 @@ Key `RUN_OPTIONS` values:
 | `corps: "\\"` | Does not add another grouping rule |
 | `parallel_groups: ""` | Selects every matched group; `"ALL|SDS_RX0"` is a single-group example |
 | `max_workers: None` | Uses the automatic resource policy; `1` limits concurrency while memory guards remain active |
-| `preprocess: False` | Uses bundled workbooks; set `True` only when fresh extraction is required |
+| `preprocess: False` | Uses workbooks already generated locally; missing files are not regenerated automatically. Run preprocessing before first use |
 | `preprocess_entry: "sh"` | Uses the Linux preprocessing entry point |
 | `signoff: False` | Does not automatically produce a signoff summary; unapproved/TBD limits are not electrical PASS |
 
@@ -196,11 +198,13 @@ ketupa run -sh main.py -- run --help
 
 ## 6. Preprocessing, geometry, and ports
 
-The three bundled spreadsheets and their provenance records are ready for the supplied Demo. They do not need to be regenerated before the first run. After replacing a layout, update the inputs and regenerate/review the corresponding data; never reuse a workbook from an unrelated design.
+**2026-10-07 update validation:** A clean copy without spreadsheets completed preprocessing, audit, doctor and all seven dry-run combinations. PCB, PKG and Merge each built RX/TX Mode 0 models on AEDT 2026 R1: six successes, zero failures. Direct Python was rejected by authorization checks. No Mode 1 solve or electrical signoff was performed. The shared-memory IPC compatibility warning fell back to standard gRPC successfully. Added `03_Verify.py` and `04_Publish.py` match the local distribution; their help entry points were checked. Maintainer builds require the source project and build dependencies; the core was not recompiled in this update.
+
+The three spreadsheets and their provenance records are not shipped in this update. Before the first dry run or model build, generate the PCB netlist, PCB placement and PKG netlist from the supplied layouts. After replacing a layout, update the inputs and regenerate/review the corresponding data; never reuse a workbook from an unrelated design.
 
 ```bash
-bash script/00_Preprocess.sh
-# Follow the interactive signal/group/confirmation prompts.
+ketupa run -sh main.py -- preprocess serdes all -- --force
+ketupa run -sh main.py -- --dry-run
 # Or preprocess immediately before the saved workflow:
 ketupa run -sh main.py -- --preprocess-first
 ```
@@ -272,7 +276,7 @@ ketupa run -sh main.py -- export serdes merge --project /absolute/path/channel.a
 | Symptom | Resolution |
 |---|---|
 | `KETUPA_AUTH_REQUIRED` | Use the matching launch-v1 Runtime with a valid license and `ketupa run -sh main.py`. Renaming Python or copying environment flags cannot authorize a workload. |
-| `pcb_netlist ... not found: [managed resource]` | Ensure all three bundled workbooks exist, restore a complete download, or preprocess the matching layout. `preprocess=False` does not regenerate missing files. |
+| `pcb_netlist ... not found: [managed resource]` | This update omits workbooks. Run `ketupa run -sh main.py -- preprocess serdes all -- --force` first. `preprocess=False` does not regenerate missing files. |
 | Native `.so` missing/import error | Use the complete directory on CPython 3.12 x86_64; this build is not for Windows or another Python ABI. |
 | Extracta path/version not identified | Correct the Cadence path in `cds_env`, confirm vendor licensing, and run `doctor`. |
 | `/var/lib/openketupa-license/...` permission denied | Ask the administrator to restore appropriate group/read/traverse permissions. Do not use `chmod 777` or bypass licensing. |
