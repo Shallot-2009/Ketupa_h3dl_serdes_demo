@@ -82,6 +82,16 @@ Demo 的 PCB/PKG 版图、叠层和连接器文件保留。2026-10-07 的 main �
 
 ### 3. 下载与首次配置
 
+[Runtime 1.0.0 下载页面](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/runtime-v1.0.0) 仅保留三个正式安装包：
+
+| 平台 | 安装包 |
+|---|---|
+| Linux x86_64 | `Ketupa-Runtime-1.0.0-Linux-x64.tar.gz` |
+| Debian / Ubuntu amd64 | `ketupa-runtime-installer_1.0.0_amd64.deb` |
+| Windows x64 | `Ketupa-Runtime-1.0.0-Windows-x64-Setup.exe` |
+
+Linux 两种格式择一；`.lic` 是单独的许可证。临时 `.py312-staged` 重复附件已删除，安装包二进制未替换；授权接口兼容要求仍见上表，不能只凭 Python 版本判断。GitHub 自动生成的 Source code 压缩包是标签快照，不是 Runtime 安装包。最新项目从 main 分支获取：
+
 ```bash
 git clone https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo.git
 cd Ketupa_h3dl_serdes_demo

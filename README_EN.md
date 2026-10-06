@@ -80,6 +80,16 @@ Confirm that `ketupa --help` works first. If the launcher is not installed, cont
 
 ## 3. Download and first-time setup
 
+The [Runtime 1.0.0 download page](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/runtime-v1.0.0) retains exactly three canonical installers:
+
+| Platform | Installer |
+|---|---|
+| Linux x86_64 | `Ketupa-Runtime-1.0.0-Linux-x64.tar.gz` |
+| Debian / Ubuntu amd64 | `ketupa-runtime-installer_1.0.0_amd64.deb` |
+| Windows x64 | `Ketupa-Runtime-1.0.0-Windows-x64-Setup.exe` |
+
+Choose one Linux format. The `.lic` file is a separate license. Duplicate `.py312-staged` assets have been removed; installer binaries are unchanged. Authorization-interface compatibility still follows the requirements above, not Python version alone. GitHub's automatic Source code archives are tagged project snapshots, not Runtime installers. Download the current project from main:
+
 ```bash
 git clone https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo.git
 cd Ketupa_h3dl_serdes_demo
