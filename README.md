@@ -22,29 +22,7 @@
 
 ## 快速开始
 
-本修订必须使用 [配套 launch-v1 Linux Runtime 升级包](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/serdes-v1.0.1-launch-v1)。约 4.5 MiB 的增量包以现有 Runtime 1.0.0 构建 `20261006T120047Z` 为基础，生成的每个文件与已验收完整 Runtime 逐项哈希一致，不删减功能。旧版 Runtime 即使同为 Python 3.12，也必须升级授权接口。许可证单独获取，本次包不附带许可证或激活数据。
-
-```bash
-sha256sum -c Ketupa-Runtime-1.0.0-launch-v1-cp312-update.tar.gz.sha256
-tar -xzf Ketupa-Runtime-1.0.0-launch-v1-cp312-update.tar.gz
-cd Ketupa-Runtime-1.0.0-launch-v1-cp312-update
-sudo python3 -I runtime_update.py --user "$USER" --check-only
-sudo python3 -I runtime_update.py --user "$USER"
-ketupa license machine
-# 仅新机器首次激活；已有有效许可证不需要重新激活。
-sudo ketupa license activate /absolute/path/to/your-authorized.lic --mac YOUR_MAC
-ketupa license status
-```
-
-**尚未安装 Runtime 的新机器：**先从 [基础 Runtime 1.0.0](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/runtime-v1.0.0) 下载 `Ketupa-Runtime-1.0.0-Linux-x64.tar.gz`，核对 SHA-256 为 `4324c26b0d6e47da63892eef59a910c0f8b7bf66388799171245a3dd1d170b65`，然后安装，再执行上面的增量升级：
-
-```bash
-tar -xzf Ketupa-Runtime-1.0.0-Linux-x64.tar.gz
-sudo mkdir -p /home/EDA
-sudo ./Ketupa-Runtime-1.0.0-Linux-x64/install /home/EDA/openketupa-runtime-linux --add-path
-```
-
-升级器先组装并逐文件校验完整环境，再替换安装，保留旧 Runtime 备份和已有激活数据。它拒绝不匹配的基线和其他安装拥有的服务。此处 `python3` 仅运行公开安装器，不能用于绕过项目授权。
+本次为 `serdes_linux/` 项目文件的更新覆盖，不执行 Runtime 升级。已有可用的配套 Ketupa 环境和有效授权可继续使用，无须重新安装或激活。
 
 Demo 位于 `serdes_linux/`，按下文配置 `script/extractors/cds_env` 后运行：
 
