@@ -35,7 +35,8 @@ ketupa license status
 Ubuntu/Debian：
 
 ```bash
-sudo apt install ./ketupa-runtime-installer_1.0.0_amd64.deb
+sudo dpkg -i ./ketupa-runtime-installer_1.0.0_amd64.deb
+sudo ketupa-install /opt/openketupa/1.0.0 --add-path
 ketupa license machine
 sudo ketupa license activate ./Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
 ketupa license status
@@ -46,7 +47,7 @@ ketupa license status
 ```bash
 tar -xzf Ketupa-Runtime-1.0.0-Linux-x64.tar.gz
 cd Ketupa-Runtime-1.0.0-Linux-x64
-sudo sh install.sh /opt/ketupa-runtime /var/lib/openketupa-license
+sudo ./install /opt/openketupa/1.0.0 --add-path
 ketupa license machine
 sudo ketupa license activate ../Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
 ketupa license status
@@ -63,7 +64,7 @@ ketupa run -sh main.py
 
 > 试用许可仅用于本 Demo 评估，使用即表示接受仓库 [LICENSE](LICENSE)。工作流会调用 Ansys、Cadence 等第三方 EDA，用户须自行安装并确认拥有合法的软件及 EDA 许可；Ketupa 试用许可不包含第三方 EDA 许可。
 
-> 当前 Demo 的原生模块要求 **CPython 3.12**。Runtime 1.0.0 Linux 安装包采用 CPython 3.13，不能直接作为本 Demo 的解释器；运行 Demo 时请在 `script/extractors/cds_env` 中指定兼容的 CPython 3.12 Ketupa 环境。Windows Runtime 可用于 Windows Ketupa 环境部署，但本仓库的 Linux `.so` Demo 不能在 Windows 上运行。
+> 当前 Demo 的原生模块要求 **CPython 3.12**。Runtime 1.0.0 的 Windows、Linux TAR.GZ 和 Linux DEB 安装包均已统一为 **CPython 3.12.15**。本仓库的 Linux `.so` Demo 仍只能在兼容的 Linux x86_64 环境运行，不能在 Windows 上直接加载。
 
 ## 中文使用指南
 

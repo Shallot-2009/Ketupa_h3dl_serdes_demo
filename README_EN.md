@@ -35,7 +35,8 @@ ketupa license status
 Ubuntu/Debian:
 
 ```bash
-sudo apt install ./ketupa-runtime-installer_1.0.0_amd64.deb
+sudo dpkg -i ./ketupa-runtime-installer_1.0.0_amd64.deb
+sudo ketupa-install /opt/openketupa/1.0.0 --add-path
 ketupa license machine
 sudo ketupa license activate ./Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
 ketupa license status
@@ -46,7 +47,7 @@ Other compatible x86_64 Linux distributions:
 ```bash
 tar -xzf Ketupa-Runtime-1.0.0-Linux-x64.tar.gz
 cd Ketupa-Runtime-1.0.0-Linux-x64
-sudo sh install.sh /opt/ketupa-runtime /var/lib/openketupa-license
+sudo ./install /opt/openketupa/1.0.0 --add-path
 ketupa license machine
 sudo ketupa license activate ../Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
 ketupa license status
@@ -63,7 +64,7 @@ ketupa run -sh main.py
 
 > The trial license is provided only to evaluate this Demo; use constitutes acceptance of the repository [LICENSE](LICENSE). The workflow calls third-party EDA software such as Ansys and Cadence. You must install that software and confirm that you hold the required legal EDA licenses. The Ketupa trial license does not include any third-party EDA license.
 
-> The native modules in this Demo require **CPython 3.12**. Runtime 1.0.0 for Linux uses CPython 3.13 and therefore cannot directly serve as this Demo's interpreter. Point `script/extractors/cds_env` to a compatible CPython 3.12 Ketupa environment. The Windows Runtime deploys the Windows Ketupa environment, but this repository's Linux `.so` Demo does not run on Windows.
+> The native modules in this Demo require **CPython 3.12**. Runtime 1.0.0 for Windows, Linux TAR.GZ, and Linux DEB now consistently embeds **CPython 3.12.15**. This repository's Linux `.so` Demo still requires a compatible Linux x86_64 environment and cannot be loaded directly on Windows.
 
 ## 1. Scope and delivered files
 
