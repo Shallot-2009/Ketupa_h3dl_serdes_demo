@@ -22,34 +22,17 @@
 
 ## 快速开始
 
-在 [Runtime 1.0.0 预览版](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/runtime-v1.0.0) 下载对应系统的安装包和 `Ketupa-Demo-30-Day-Trial.lic`。
-
-Windows：运行 `Ketupa-Runtime-1.0.0-Windows-x64-Setup.exe`，重新打开终端，然后执行：
-
-```powershell
-ketupa license machine
-ketupa license activate .\Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
-ketupa license status
-```
-
-Ubuntu/Debian：
+本修订必须使用 [配套 launch-v1 Linux Runtime](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/serdes-v1.0.1-launch-v1)。旧版 Runtime 即使同为 Python 3.12，也不具备本修订要求的授权启动接口。许可证单独获取，本次包不附带许可证或激活数据。
 
 ```bash
-sudo dpkg -i ./ketupa-runtime-installer_1.0.0_amd64.deb
-sudo ketupa-install /opt/openketupa/1.0.0 --add-path
+sha256sum -c Ketupa-Runtime-1.0.0-Linux-x64-launch-v1-cp312.tar.gz.sha256
+tar -xzf Ketupa-Runtime-1.0.0-Linux-x64-launch-v1-cp312.tar.gz
+cd Ketupa-Runtime-1.0.0-Linux-x64-launch-v1-cp312
+sh install.sh --check-only
+sudo sh install.sh --user "$USER"
+# 同路径已有 Runtime 时加 --upgrade；升级不替换已有激活数据。
 ketupa license machine
-sudo ketupa license activate ./Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
-ketupa license status
-```
-
-其他兼容的 x86_64 Linux：
-
-```bash
-tar -xzf Ketupa-Runtime-1.0.0-Linux-x64.tar.gz
-cd Ketupa-Runtime-1.0.0-Linux-x64
-sudo ./install /opt/openketupa/1.0.0 --add-path
-ketupa license machine
-sudo ketupa license activate ../Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
+sudo ketupa license activate /absolute/path/to/your-authorized.lic --mac YOUR_MAC
 ketupa license status
 ```
 
@@ -64,13 +47,13 @@ ketupa run -sh main.py
 
 > 试用许可仅用于本 Demo 评估，使用即表示接受仓库 [LICENSE](LICENSE)。工作流会调用 Ansys、Cadence 等第三方 EDA，用户须自行安装并确认拥有合法的软件及 EDA 许可；Ketupa 试用许可不包含第三方 EDA 许可。
 
-> 当前 Demo 的原生模块要求 **CPython 3.12**。Runtime 1.0.0 的 Windows、Linux TAR.GZ 和 Linux DEB 安装包均已统一为 **CPython 3.12.15**。本仓库的 Linux `.so` Demo 仍只能在兼容的 Linux x86_64 环境运行，不能在 Windows 上直接加载。
+> 当前 Demo 要求 **Linux x86_64、CPython 3.12.15、ketupa-launch-v1**。默认 Runtime 安装到 `/home/EDA/openketupa-runtime-linux`；系统安装器使用 Python 3.11+，项目建模只能经合法授权的 `ketupa` 启动。新增用户组后需重新登录。Windows 安装包不在本次更新范围，不能加载 Linux `.so`。
 
 ## 中文使用指南
 
 ### 1. 项目定位与交付内容
 
-本仓库交付可运行的 Linux 原生 Demo，保留主入口和预处理脚本的可编辑性。`lib/`、`modules/` 和 `resource/` 使用 119 个 CPython 3.12 原生 `.so` 扩展，内部模板/配置随核心提供；不附核心 Python 源码、编译中间文件、许可证、历史仿真结果或独立 docs。
+本仓库交付 Linux 原生 Demo，保留主入口和预处理脚本的可编辑性。`lib/`、`modules/` 和 `resource/` 使用 142 个 CPython 3.12 原生 `.so` 扩展，每个模块独立进行原生授权检查，内部模板/配置随核心提供；不附核心 Python 源码、编译中间文件、许可证、历史仿真结果或独立 docs。
 
 ```text
 Ketupa_h3dl_serdes_demo/
@@ -100,7 +83,7 @@ Demo 的 PCB/PKG 版图、配套 Excel、叠层和连接器文件全部保留。
 |---|---|
 | 平台 | Linux x86_64、兼容 glibc；非 Windows、ARM、PyPy 或 Alpine/musl 包 |
 | Python ABI | **CPython 3.12**，建议使用现有 Ketupa 运行环境，不要直接更换系统 Python |
-| 启动器 | 已安装且可用的 `ketupa` 命令及合法授权；本仓库不包含安装器 |
+| 启动器 | 配套 `ketupa-launch-v1` Runtime 与有效许可证；安装包见本修订 Release |
 | EDA | Ansys Electronics Desktop / HFSS 3D Layout；Cadence SPB Extracta/Report 用于 BRD/SIP 导入或预处理 |
 | Python 依赖 | Ketupa 环境中的 `openpyxl`、`numpy`、`cryptography`、`pyedb`、`psutil` 等；由 `doctor` 检查 |
 | 资源 | 依据当前可用 CPU/内存限制并发；本地证据来自约 30 GB 内存主机，不是所有模型的最低内存保证 |
@@ -122,12 +105,12 @@ cd serdes_linux
 首次部署只需按实际安装位置编辑 `script/extractors/cds_env` 的三个路径：
 
 ```ini
-PYTHON_EXE=/your/ketupa/runtime/bin/python
+PYTHON_EXE=/home/EDA/openketupa-runtime-linux/runtime/bin/python3
 CADENCE_TOOLS_BIN=/your/cadence/tools/bin:/your/older/cadence/tools/bin
 KETUPA_ANSYSEDT=/your/ansys/AnsysEM
 ```
 
-包内 `/home/EDA/...` 是开发机示例，不是通用安装路径。多个 Cadence 目录按优先级排列，用 `:` 分隔。这里不填写许可证或 API 密钥；厂商许可证按各自正常安装流程配置。完成首次工具路径配置后，日常选场景和换输入只改 `main.py`。
+包内 `/home/EDA/...` 是示例安装路径。`PYTHON_EXE` 必须指向配套 Runtime 的解释器，不能改为依赖相同的任意 Python。多个 Cadence 目录按优先级排列，用 `:` 分隔。这里不填写许可证或 API 密钥；厂商许可证按各自正常安装流程配置。完成首次工具路径配置后，日常选场景和换输入只改 `main.py`。
 
 ### 4. 推荐运行顺序
 
@@ -270,15 +253,17 @@ ketupa run -sh main.py -- export serdes merge --project /absolute/path/channel.a
 
 **验证范围（2026-10-06）：**
 
-- 原生核心 119 个 `.so`；无核心 `.py/.pyc`；核心篡改拒绝检查通过。
+- 原生核心 142 个 `.so`；无核心 `.py/.pyc`。源码/原生授权组件 51 项测试通过。
 - PCB/PKG/Merge 七种组合 dry-run 通过，迁移到本仓库 `serdes_linux/` 后审计和输入检查通过。
-- AEDT 2026 R1 三场景各 RX0 的 Mode 0 建模成功；保存工程的四端口名称、顺序、阻抗和参考网与对应源码结果一致；重新打开后 `ValidateCircuit()` 均返回 `1`。
+- AEDT 2026 R1 三场景各 RX0、TX0 的 Mode 0 建模成功；保存工程的四端口属性及顺序与对应源码结果一致；重新打开六个工程后 `ValidateCircuit()` 均返回 `1`。这不是求解或电气精度证明。
+- 11 项实际启动/并行测试通过：合法授权成功、同解释器直接 Python 拒绝、伪造环境标志拒绝、三个并行子进程可用、直接加载原生核心模块拒绝。缺失/无效格式许可证在隔离系统 broker 中拒绝；签名过期/错误机器等覆盖来自合成组件测试，不冒充实机许可证签发验收。
 - 原生包默认 Merge 的 RX/TX 两组通过实际 `ketupa run -sh main.py` 建模，2 成功、0 失败。早先启动器目录权限问题已不再阻止该次运行。
 - **未验证：**完整 Mode 1 求解、网格收敛与电气 signoff、AEDT 2025 实机、Windows/ARM/其他 Linux 发行版组合。
 - **已知提醒：**PCB/Merge 连接器 J3D1/J3D2 有 “does not contain any priority bodies” 材料覆盖提醒。原生检查通过不等于材料重叠与电气精度已验收；本版本没有自动改变该模型物理设置。
 
 | 现象 | 处理 |
 |---|---|
+| `KETUPA_AUTH_REQUIRED` | 使用配套 launch-v1 Runtime 和有效许可证，通过 `ketupa run -sh main.py` 启动；重命名 Python、复制环境变量不能授权。 |
 | `pcb_netlist ... not found: [managed resource]` | 检查 main 指向的三份 Excel 是否完整；重新下载缺失文件，或对匹配版图重新预处理。默认 `preprocess=False` 不会自动补表。 |
 | 找不到 `.so` / import 失败 | 使用完整目录和 CPython 3.12 x86_64 环境；不要把本包拿到 Windows/其他 Python ABI 使用。 |
 | Extracta 路径/版本无法识别 | 核对 `cds_env` 的 Cadence 路径及厂商工具授权，先执行 `doctor`。 |
@@ -287,6 +272,10 @@ ketupa run -sh main.py -- export serdes merge --project /absolute/path/channel.a
 | `CONFIG NOTE ... TBD` | 电气判据尚未批准，不是可忽略后宣称合规的 PASS，也不必然阻止 Mode 0 建模。 |
 
 ### 8. 许可与保护边界
+
+**强制授权启动声明：**源码发行版和原生发行版均要求通过有效许可证授权的 `ketupa` 启动受保护建模核心；直接 `python main.py`，即使依赖和解释器版本一致，也不是允许的启动方式。系统 broker 校验内核报告的进程身份、可信原生启动器和活动许可证租约，worker 通过真实父子进程链继承授权，不使用可复制的环境变量作为凭证。每个受保护 `.so` 内都有独立原生检查。开放的预处理脚本仍保持可编辑性；可以修改的源码检查可被修改或删除，不能据此声称源码不可绕过。
+
+配套为 **Demo v1.0.1 / Runtime 产品版本 1.0.0 / cp312 / ketupa-launch-v1**，确切 Runtime 构建号见发行包 `payload/MANIFEST.json`。不支持混搭旧 Runtime 与新核心。保护不保证抵抗管理员权限、原生调试、内存读取、加载器注入或二进制补丁，不承诺绝对不可逆向。
 
 本仓库是**公开可下载的专有 Demo，不是开源核心**。采用 [Proprietary Evaluation License](LICENSE)：允许学习、研究、企业内部非生产评估及修改开放脚本/配置；商业生产、付费交付或修改版分发需联系作者。GitHub 可能将自定义许可显示为 “Other” 而非标准开源许可证。
 

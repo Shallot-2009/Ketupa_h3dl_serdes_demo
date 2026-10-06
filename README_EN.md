@@ -22,34 +22,17 @@ An HFSS 3D Layout automation demo for 112G/224G SerDes channel studies, covering
 
 ## Quick start
 
-Download the package for your operating system and `Ketupa-Demo-30-Day-Trial.lic` from the [Runtime 1.0.0 preview release](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/runtime-v1.0.0).
-
-Windows: run `Ketupa-Runtime-1.0.0-Windows-x64-Setup.exe`, reopen the terminal, then run:
-
-```powershell
-ketupa license machine
-ketupa license activate .\Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
-ketupa license status
-```
-
-Ubuntu/Debian:
+Use the [matching launch-v1 Linux Runtime](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/serdes-v1.0.1-launch-v1). Older Runtimes do not implement the required launch authorization interface, even if they also use Python 3.12. Obtain a legitimate license separately; no license or activation data is included in this package.
 
 ```bash
-sudo dpkg -i ./ketupa-runtime-installer_1.0.0_amd64.deb
-sudo ketupa-install /opt/openketupa/1.0.0 --add-path
+sha256sum -c Ketupa-Runtime-1.0.0-Linux-x64-launch-v1-cp312.tar.gz.sha256
+tar -xzf Ketupa-Runtime-1.0.0-Linux-x64-launch-v1-cp312.tar.gz
+cd Ketupa-Runtime-1.0.0-Linux-x64-launch-v1-cp312
+sh install.sh --check-only
+sudo sh install.sh --user "$USER"
+# Add --upgrade for an existing installation at this path; activation is retained.
 ketupa license machine
-sudo ketupa license activate ./Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
-ketupa license status
-```
-
-Other compatible x86_64 Linux distributions:
-
-```bash
-tar -xzf Ketupa-Runtime-1.0.0-Linux-x64.tar.gz
-cd Ketupa-Runtime-1.0.0-Linux-x64
-sudo ./install /opt/openketupa/1.0.0 --add-path
-ketupa license machine
-sudo ketupa license activate ../Ketupa-Demo-30-Day-Trial.lic --mac AA:BB:CC:DD:EE:FF
+sudo ketupa license activate /absolute/path/to/your-authorized.lic --mac YOUR_MAC
 ketupa license status
 ```
 
@@ -64,11 +47,11 @@ ketupa run -sh main.py
 
 > The trial license is provided only to evaluate this Demo; use constitutes acceptance of the repository [LICENSE](LICENSE). The workflow calls third-party EDA software such as Ansys and Cadence. You must install that software and confirm that you hold the required legal EDA licenses. The Ketupa trial license does not include any third-party EDA license.
 
-> The native modules in this Demo require **CPython 3.12**. Runtime 1.0.0 for Windows, Linux TAR.GZ, and Linux DEB now consistently embeds **CPython 3.12.15**. This repository's Linux `.so` Demo still requires a compatible Linux x86_64 environment and cannot be loaded directly on Windows.
+> This Demo requires **Linux x86_64, CPython 3.12.15 and ketupa-launch-v1**. The default Runtime path is `/home/EDA/openketupa-runtime-linux`. The system installer uses Python 3.11+; protected modeling requires the licensed `ketupa` launcher. Log in again after group membership changes. Windows installers are not updated in this revision and cannot load the Linux `.so` files.
 
 ## 1. Scope and delivered files
 
-This repository delivers a runnable Linux native demo containing **PCB, PKG, and Merge** workflows. `serdes_linux/main.py` remains editable, as do the extraction and preprocessing rules under `serdes_linux/script/`. The modeling core, workflow implementations, and resource policy are distributed as **119 CPython 3.12 native `.so` extensions** under `serdes_linux/lib/`, `serdes_linux/modules/`, and `serdes_linux/resource/`.
+This repository delivers a Linux native demo containing **PCB, PKG, and Merge** workflows. `serdes_linux/main.py` remains editable, as do the extraction and preprocessing rules under `serdes_linux/script/`. The modeling core, workflow implementations, and resource policy are distributed as **142 CPython 3.12 native `.so` extensions**, each with an independent native authorization check, under `serdes_linux/lib/`, `serdes_linux/modules/`, and `serdes_linux/resource/`.
 
 ```text
 Ketupa_h3dl_serdes_demo/
@@ -98,7 +81,7 @@ The public Demo inputs include the PCB and package layouts, their spreadsheets a
 |---|---|
 | Platform | Linux x86_64 with compatible glibc; not Windows, ARM, PyPy, or Alpine/musl |
 | Python ABI | **CPython 3.12**, preferably the existing Ketupa runtime rather than a system Python replacement |
-| Launcher | Installed and authorized `ketupa` command; this repository does not contain its installer or license |
+| Launcher | Matching `ketupa-launch-v1` Runtime and valid license; installer is provided in this revision's Release |
 | EDA tools | Ansys Electronics Desktop with HFSS 3D Layout; Cadence SPB Extracta/Report for applicable BRD/SIP import or preprocessing |
 | Python packages | `openpyxl`, `numpy`, `cryptography`, `pyedb`, `psutil`, and related dependencies checked by `doctor` |
 | Resources | Concurrency is limited by current CPU and memory; the local evidence used an approximately 30 GB host and is not a universal minimum-memory guarantee |
@@ -120,12 +103,12 @@ For GitHub **Code → Download ZIP**, extract the entire repository before enter
 On a new workstation, edit exactly these three paths in `script/extractors/cds_env`:
 
 ```ini
-PYTHON_EXE=/your/ketupa/runtime/bin/python
+PYTHON_EXE=/home/EDA/openketupa-runtime-linux/runtime/bin/python3
 CADENCE_TOOLS_BIN=/your/cadence/tools/bin:/your/older/cadence/tools/bin
 KETUPA_ANSYSEDT=/your/ansys/AnsysEM
 ```
 
-The shipped `/home/EDA/...` values are workstation examples, not portable defaults. Separate multiple Cadence directories with `:` in preferred-to-fallback order. Do not put license files, credentials, or API keys in this file; configure vendor licensing through the normal licensed installation procedure. For normal workflow selection and input changes after setup, edit only `main.py`.
+The shipped `/home/EDA/...` values are example installation paths. `PYTHON_EXE` must identify the matching Runtime interpreter, not an arbitrary Python with identical dependencies. Separate multiple Cadence directories with `:` in preferred-to-fallback order. Do not put license files, credentials, or API keys in this file; configure vendor licensing through the normal licensed installation procedure. For normal workflow selection and input changes after setup, edit only `main.py`.
 
 ## 4. Recommended command sequence
 
@@ -268,15 +251,17 @@ ketupa run -sh main.py -- export serdes merge --project /absolute/path/channel.a
 
 **Verification scope on 2026-10-06:**
 
-- The core contains 119 `.so` files and no core `.py/.pyc`; the native tamper-rejection test passed.
+- The core contains 142 `.so` files and no core `.py/.pyc`. All 51 source/native authorization component tests passed.
 - All seven PCB/PKG/Merge selection combinations passed dry-run. Audit and input resolution passed again after relocation into this repository's `serdes_linux/` directory.
-- One RX0 group in each scenario built successfully with AEDT 2026 R1. Saved four-port names, order, impedance, and references matched the corresponding source implementation; reopening each model returned `1` from `ValidateCircuit()`.
+- RX0 and TX0 groups in each scenario built successfully with AEDT 2026 R1. Saved four-port properties and order matched the corresponding source implementation; reopening all six models returned `1` from `ValidateCircuit()`. This is not solver or electrical-accuracy qualification.
+- Eleven live launch/worker checks passed: licensed execution, rejection of direct same-interpreter Python and forged environment flags, three parallel workers, and rejection of direct native-module loading. Missing/malformed licenses were rejected using an isolated real system broker; expired-signature/wrong-machine cases are synthetic component tests, not claimed real license-issuance acceptance.
 - The native default Merge workflow built both RX and TX groups through the real `ketupa run -sh main.py` launcher: 2 completed, 0 failed.
 - **Not validated:** a complete Mode 1 solve, mesh convergence, electrical signoff, AEDT 2025 on an actual installation, Windows/ARM, or every Linux distribution.
 - **Known advisory:** PCB/Merge connector instances J3D1/J3D2 report “does not contain any priority bodies.” Native validation passes, but that is not proof of material overlap or electrical accuracy. This release does not silently change that model physics.
 
 | Symptom | Resolution |
 |---|---|
+| `KETUPA_AUTH_REQUIRED` | Use the matching launch-v1 Runtime with a valid license and `ketupa run -sh main.py`. Renaming Python or copying environment flags cannot authorize a workload. |
 | `pcb_netlist ... not found: [managed resource]` | Ensure all three bundled workbooks exist, restore a complete download, or preprocess the matching layout. `preprocess=False` does not regenerate missing files. |
 | Native `.so` missing/import error | Use the complete directory on CPython 3.12 x86_64; this build is not for Windows or another Python ABI. |
 | Extracta path/version not identified | Correct the Cadence path in `cds_env`, confirm vendor licensing, and run `doctor`. |
@@ -285,6 +270,10 @@ ketupa run -sh main.py -- export serdes merge --project /absolute/path/channel.a
 | `CONFIG NOTE ... TBD` | The electrical criterion is not approved; do not report compliance PASS. It does not necessarily prevent Mode 0 building. |
 
 ## 8. License and protection boundary
+
+**Mandatory licensed-launch policy:** both source and native distributions require a valid licensed `ketupa` launch for the protected modeling core. Direct `python main.py`, even with identical interpreter/dependency versions, is not an authorized launch method. The system broker verifies kernel process identity, the trusted native supervisor and live license leases. Workers inherit authorization through actual process ancestry, not copyable environment tokens. Each protected `.so` has an independent native check. Preprocessing scripts remain editable. Editable source checks can be changed or removed; source protection is not represented as tamper-proof.
+
+The matched combination is **Demo v1.0.1 / Runtime product version 1.0.0 / cp312 / ketupa-launch-v1**. The exact Runtime build ID is recorded in the release's `payload/MANIFEST.json`. Do not mix the new core with an older Runtime. Protection does not guarantee resistance to administrator access, native debugging, memory inspection, loader injection or binary patching, nor absolute irreversibility.
 
 This is a **publicly downloadable proprietary Demo with a closed native core**. The [Proprietary Evaluation License](LICENSE) permits learning, research, internal non-production evaluation, and changes to exposed scripts/configuration for those purposes. Commercial production, paid delivery, hosted service use, or redistribution of modified versions requires written permission from the author. GitHub identifies the custom license as “Other”; it is not MIT, GPL, or another OSI-approved license.
 
