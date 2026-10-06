@@ -30,7 +30,7 @@ Ketupa_h3dl_serdes_demo/
 ├── README_EN.md                  English guide
 ├── LICENSE                       专有 Demo 评估许可
 ├── SHA256SUMS                    发布文件校验清单
-├── assets/                       实际 HFSS 模型视图
+├── assets/                       实际 HFSS 视图与参数化结构说明图
 └── linux/                        进入此目录运行
     ├── main.py                   场景、输入、模式、并发配置
     ├── input/
@@ -176,18 +176,29 @@ ketupa run -sh main.py -- --preprocess-first
 
 C4 为 Flip-Chip / chip-down，沿用库参数：**高度 60 µm、半径 65 µm**（`sbr`，不要将历史文件名 `d65um` 当作直径证据）。BGA 使用 **0.5 mm pitch** 库，pitch 不等于球径。Merge 保留 C4 参考面、取消中间 BGA 端口与受控 BGA PEC 辅助面；使用 Placement 的上下表面和旋转信息对齐。PKG 的 AUTO 参考网策略保留实际存在的 VSS/AGND，不擅自短接独立地网。
 
-<details>
-<summary>PCB / PKG 的实际 HFSS 视图 · More actual HFSS model views</summary>
+#### 完整工程图组：Merge、PCB、PKG、连接器、bump 与 ball
 
-![HFSS PCB RX0 model top view](assets/hfss-serdes-pcb.jpg)
+以下图像全部直接显示，便于在 GitHub 主页面检查模型边界与互连结构。前三张布局图和连接器图均从已保存的 AEDT 2026 R1 工程导出；最后一张左侧是依据发布参数绘制的侧向结构示意，右侧是同一连接器工程的实际 HFSS 正交视图。它们都不是场分布图或已求解结果。
 
-PCB: `serdes_pcb_SDS_RX0_CHIP1` — solder-to-connector layout view.
+![HFSS 3D Layout — SerDes PCB–PKG Merge model, RX0 top view](assets/hfss-serdes-merge.jpg)
 
-![HFSS PKG RX0 model top view](assets/hfss-serdes-pkg.jpg)
+**Merge（实际工程顶视图）** — `serdes_merge_SDS_RX0_CHIP1`。通道边界为 DIE C4 bump → PCB 连接器；Merge 不在中间 BGA solder ball 上保留端口。
 
-PKG: `serdes_pkg_SDS_RX0_DIE_1` — bump-to-solder layout view. Both images were exported from saved AEDT 2026 R1 projects, not synthesized illustrations.
+![HFSS 3D Layout — SerDes PCB model, RX0 top view](assets/hfss-serdes-pcb.jpg)
 
-</details>
+**PCB（实际工程顶视图）** — `serdes_pcb_SDS_RX0_CHIP1`。显示 BGA solder ball → PCB 连接器的差分通道布局。
+
+![HFSS 3D Layout — SerDes package model, RX0 top view](assets/hfss-serdes-pkg.jpg)
+
+**PKG / 封装（实际工程顶视图）** — `serdes_pkg_SDS_RX0_DIE_1`。显示 chip-down DIE、C4 bump 侧端口边界与 BGA solder ball 侧端口边界对应的封装布局。
+
+![HFSS 3D Component — 1.0 mm 110 GHz precision coaxial connector](assets/hfss-serdes-connector-3d.jpg)
+
+**SMA 类连接器（实际 HFSS 3D Component 视图）** — Demo 文件实际为 `Stripline_connector_1p0mm_110GHz.a3dcomp`，即 **1.0 mm / 110 GHz 精密同轴连接器模型**；“SMA 类”仅描述外形与用途，不应将它误写成标准 SMA 型号。
+
+![SerDes side structure with C4 bump, BGA solder ball, PCB and coaxial connector](assets/hfss-serdes-side-structure.png)
+
+**侧向结构总览** — 左侧参数化示意明确展示 chip-down DIE、C4 bump（半径 65 µm、高度 60 µm）、PKG substrate、0.5 mm pitch BGA solder ball、PCB stackup 与 Merge 信号边界；右侧是实际 HFSS 连接器侧视截图。垂直比例为便于观察而放大，不可用于从像素反推物理尺寸。
 
 ### 7. 输出位置、验收与排错
 

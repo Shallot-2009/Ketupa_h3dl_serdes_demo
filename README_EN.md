@@ -28,7 +28,7 @@ Ketupa_h3dl_serdes_demo/
 ├── README_EN.md                  Complete English guide
 ├── LICENSE                       Proprietary Demo evaluation license
 ├── SHA256SUMS                    Release integrity manifest
-├── assets/                       Views exported from actual HFSS models
+├── assets/                       Actual HFSS views and a parameter-based structure diagram
 └── linux/                        Run all commands from this directory
     ├── main.py                   Workflow, input, mode, and concurrency settings
     ├── input/
@@ -174,18 +174,29 @@ ketupa run -sh main.py -- --preprocess-first
 
 C4 uses a chip-down Flip-Chip model with **60 µm height and 65 µm radius** in the actual `sbr` parameter. Do not interpret the historical `d65um` filename as diameter evidence. BGA uses the **0.5 mm pitch** library; pitch is not ball diameter. Merge keeps the C4 reference treatment, removes intermediate BGA ports and disables the controlled BGA helper PEC sheet. Placement side/rotation data is used for alignment. The package AUTO reference policy preserves actually separate VSS and AGND nets rather than arbitrarily shorting them.
 
-<details>
-<summary>Actual PCB and PKG HFSS model views</summary>
+### Complete engineering gallery: Merge, PCB, package, connector, bump, and ball
 
-![HFSS PCB RX0 model top view](assets/hfss-serdes-pcb.jpg)
+Every image is expanded directly on the repository page so that the modeling boundary and interconnect structure can be inspected without opening a collapsed section. The three layout views and the connector view were exported from saved AEDT 2026 R1 projects. In the final image, the left side is an engineering illustration drawn from released model parameters and the right side is an actual orthographic HFSS view of the connector project. None of these images is a field plot or solved result.
 
-PCB: `serdes_pcb_SDS_RX0_CHIP1` — solder-to-connector layout view.
+![HFSS 3D Layout — SerDes PCB–PKG Merge model, RX0 top view](assets/hfss-serdes-merge.jpg)
 
-![HFSS PKG RX0 model top view](assets/hfss-serdes-pkg.jpg)
+**Merge — actual project top view:** `serdes_merge_SDS_RX0_CHIP1`. The channel boundary is the DIE C4 bump to the PCB connector; no intermediate port is retained on the BGA solder ball in Merge.
 
-PKG: `serdes_pkg_SDS_RX0_DIE_1` — bump-to-solder layout view. Both images were exported from saved AEDT 2026 R1 projects; they are not synthesized illustrations.
+![HFSS 3D Layout — SerDes PCB model, RX0 top view](assets/hfss-serdes-pcb.jpg)
 
-</details>
+**PCB — actual project top view:** `serdes_pcb_SDS_RX0_CHIP1`, showing the differential-channel layout from BGA solder ball to PCB connector.
+
+![HFSS 3D Layout — SerDes package model, RX0 top view](assets/hfss-serdes-pkg.jpg)
+
+**PKG / package — actual project top view:** `serdes_pkg_SDS_RX0_DIE_1`, showing the package layout associated with the chip-down DIE/C4-bump port boundary and the BGA-solder-ball port boundary.
+
+![HFSS 3D Component — 1.0 mm 110 GHz precision coaxial connector](assets/hfss-serdes-connector-3d.jpg)
+
+**SMA-style connector — actual HFSS 3D Component view:** the Demo file is `Stripline_connector_1p0mm_110GHz.a3dcomp`, a **1.0 mm / 110 GHz precision coaxial connector model**. “SMA-style” describes its role and appearance; it must not be read as a claim that the component is a standard SMA model.
+
+![SerDes side structure with C4 bump, BGA solder ball, PCB and coaxial connector](assets/hfss-serdes-side-structure.png)
+
+**Side-structure overview:** the parameter-based illustration on the left explicitly shows the chip-down DIE, C4 bump (65 µm radius, 60 µm height), package substrate, 0.5 mm-pitch BGA solder ball, PCB stackup, and Merge channel boundary. The right side is an actual side screenshot of the HFSS connector model. The vertical scale is enlarged for legibility and must not be used to infer dimensions from pixels.
 
 ## 7. Output, verification, and troubleshooting
 
