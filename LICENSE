@@ -1,0 +1,63 @@
+Ketupa H3DL SerDes Demo — Proprietary Evaluation License 1.0
+Copyright (c) 2026 hongbo.li. All rights reserved.
+Contact: asenjoaupa@gmail.com / 3405802009@qq.com
+
+1. Scope
+This license applies to the original software, documentation and demonstration
+materials supplied by hongbo.li in this repository (the "Demo"). Separately
+identified third-party materials remain subject to their own applicable terms.
+This is a proprietary, limited-use license, NOT an open-source license.
+
+2. Permitted use
+You may download and run the Demo for personal learning, research, and internal
+non-production evaluation, including evaluation within a company. You may edit
+main.py, the exposed script/ files, and input data for those purposes, and retain
+the engineering results you generate. This permission does not grant rights in
+third-party input data, tools, models or patents.
+You may share an unmodified copy of the Demo, provided this license, notices and
+attribution remain intact. You may view and fork this public repository using
+GitHub's normal functionality, subject to GitHub's applicable terms. These
+permissions do not authorize wider distribution of modified versions.
+
+3. Protected core and restrictions
+The native libraries under linux/lib, linux/modules and linux/resource are
+provided in executable form only. No core-source license or obligation to supply
+source is granted. Except to the extent mandatory applicable law expressly
+permits notwithstanding this restriction, you must not reverse engineer,
+decompile or disassemble that core, attempt to recover its source, remove or
+circumvent its integrity checks, or modify its native binaries.
+Without prior written permission from the copyright holder, you may not sell,
+sublicense, redistribute modified copies, offer the Demo as a hosted service,
+or use it for commercial production or paid client delivery. Contact the author
+for a separate commercial or redistribution license.
+
+4. External dependencies
+This repository does not supply licenses for Ketupa, Ansys, Cadence or other
+third-party products. You must obtain and comply with all required third-party
+licenses. No permission to bypass third-party licensing or security is granted.
+Product names are trademarks of their respective owners. No vendor endorsement
+or affiliation is implied.
+
+5. No warranty; engineering responsibility
+THE DEMO IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE COPYRIGHT HOLDER IS NOT
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM THE DEMO OR ITS USE.
+You are responsible for checking geometry, stackups, ports, materials, meshing,
+convergence, extracted models and electrical compliance before relying on results.
+Published checks are limited to the stated versions and scenarios, and are not
+certification, signoff or a guarantee for an arbitrary design.
+
+6. Termination
+Permissions terminate upon breach of this license. Stop using and distributing
+the Demo if your permissions terminate. Rights that cannot legally be excluded
+are unaffected. All rights not expressly granted are reserved.
+
+中文摘要（方便理解，条款以英文正文为准）
+本项目采用专有 Demo 评估许可，不是 MIT/GPL 等开源许可。允许学习、研究及
+企业内部非生产评估；允许修改 main.py、开放脚本和输入数据用于上述用途，
+并保留生成的工程结果。允许附带完整许可和署名分享未修改的 Demo，以及
+按照 GitHub 条款查看和 Fork。核心 lib/modules/resource 不开放源码，除
+适用法律强制允许的情形外，不得逆向、反编译、修改二进制或绕过完整性校验。
+商业生产、付费交付、托管服务、转授权和修改版分发需联系作者取得书面许可。
+EDA 软件与模型的第三方许可另行适用；Demo 按现状提供，不构成电气签核。

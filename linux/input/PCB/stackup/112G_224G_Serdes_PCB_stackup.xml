@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<c:Control xmlns:c="http://www.ansys.com/control" schemaVersion="1.0">
+
+  <Stackup schemaVersion="1.0">
+    <Materials>
+      <Material Name="AIR">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="COPPER">
+        <Conductivity>
+          <Double>59590000</Double>
+        </Conductivity>
+      </Material>
+      <Material Name="EM892+_core">
+        <Permittivity>
+          <Double>2.67</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0.0007</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="EM892+_pp">
+        <Permittivity>
+          <Double>2.82</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0.0007</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="IT180A">
+        <Permittivity>
+          <Double>3.9</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0.006</Double>
+        </DielectricLossTangent>
+      </Material>
+    </Materials>
+    <Layers LengthUnit="um">
+      <Layer Color="#553755" FillMaterial="AIR" Material="COPPER" Name="TOP" Thickness="45.0000116" Type="conductor"/>
+      <Layer Color="#1a291f" Material="EM892+_pp" Name="UNNAMED_002" Thickness="65.999995" Type="dielectric"/>
+      <Layer Color="#289889" EtchFactor="5.90551" FillMaterial="EM892+_pp" Material="COPPER" Name="SIGNAL02" Thickness="14.9999954" Type="conductor"/>
+      <Layer Color="#44614c" Material="EM892+_core" Name="UNNAMED_004" Thickness="203.0000004" Type="dielectric"/>
+      <Layer Color="#868feb" FillMaterial="IT180A" Material="COPPER" Name="GND03" Thickness="29.9999908" Type="conductor"/>
+      <Layer Color="#264a33" Material="IT180A" Name="UNNAMED_006" Thickness="200.0000064" Type="dielectric"/>
+      <Layer Color="#efa15d" FillMaterial="IT180A" Material="COPPER" Name="GND04" Thickness="29.9999908" Type="conductor"/>
+      <Layer Color="#1a291f" Material="IT180A" Name="UNNAMED_008" Thickness="399.9999874" Type="dielectric"/>
+      <Layer Color="#f67fc1" FillMaterial="IT180A" Material="COPPER" Name="GND05" Thickness="29.9999908" Type="conductor"/>
+      <Layer Color="#44614c" Material="IT180A" Name="UNNAMED_010" Thickness="200.0000064" Type="dielectric"/>
+      <Layer Color="#fd777a" FillMaterial="IT180A" Material="COPPER" Name="GND06" Thickness="29.9999908" Type="conductor"/>
+      <Layer Color="#264a33" Material="IT180A" Name="UNNAMED_012" Thickness="203.0000004" Type="dielectric"/>
+      <Layer Color="#8db7ca" FillMaterial="IT180A" Material="COPPER" Name="GND07" Thickness="14.9999954" Type="conductor"/>
+      <Layer Color="#1a291f" Material="IT180A" Name="UNNAMED_014" Thickness="65.999995" Type="dielectric"/>
+      <Layer Color="#5c4300" FillMaterial="AIR" Material="COPPER" Name="BOTTOM" Thickness="45.0000116" Type="conductor"/>
+      <Layer Color="#d198b1" Name="Outline" Type="outline"/>
+    </Layers>
+  </Stackup>
+
+</c:Control>

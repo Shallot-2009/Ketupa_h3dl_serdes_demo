@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "id": "ketupa-base",
+  "version": "1.0.0",
+  "table": {
+    "header_scan_rows": 20,
+    "preferred_sheets": ["ALL", "All", "Placement"]
+  },
+  "classification": {
+    "minimum_family_score": 5.0,
+    "minimum_family_margin": 1.5
+  },
+  "columns": {
+    "net_name": ["Net Name", "Net", "Network", "Signal", "Signal Name", "网络", "网络名称"],
+    "endpoint_a": ["PIN 1", "Pin A", "Endpoint A", "Source Pins", "From", "起点"],
+    "endpoint_b": ["PIN 2", "Pin B", "Endpoint B", "Target Pins", "To", "终点"],
+    "all_pins": ["Net Pins", "NET PINS", "Pins", "Nodes", "Connections", "连接点"],
+    "signal_type": ["Signal Type", "Type", "Net Type", "信号类型"],
+    "group": ["M Group", "Group", "Pair", "Lane Group", "分组"],
+    "partition": ["Chip Partition", "Partition", "Die", "Chip", "芯片分区"],
+    "refdes": ["RefDes", "REFDES", "Reference Designator", "Device", "位号"],
+    "role": ["Role", "ROLE", "Component Role", "器件角色"],
+    "side": ["Side", "SIDE", "Board Side", "器件面"],
+    "mirror": ["Mirror", "SYM_MIRROR", "Mirrored", "镜像"],
+    "x": ["X", "SYM_X", "X Coordinate", "X坐标"],
+    "y": ["Y", "SYM_Y", "Y Coordinate", "Y坐标"],
+    "rotation": ["Rotation", "SYM_ROTATE", "Rotate", "Angle", "角度"],
+    "package": ["Package", "COMP_PACKAGE", "Footprint", "封装"]
+  },
+  "pin": {
+    "separator_regex": "[\\s,;，；|]+",
+    "token_regex": "^(?P<refdes>[^.\\s]+)\\.(?P<pin>\\S+)$"
+  },
+  "family_rules": {
+    "lpddr": [],
+    "pcie": [],
+    "serdes": [],
+    "pll_clk": []
+  },
+  "network_contracts": {},
+  "topology_rules": {
+    "pcb": ["(?:^|/)pcb(?:/|$)"],
+    "pkg": ["(?:^|/)pkg(?:/|$)"]
+  },
+  "endpoint_rules": [],
+  "endpoint_order_rules": [],
+  "component_role_rules": [],
+  "defaults": {}
+}

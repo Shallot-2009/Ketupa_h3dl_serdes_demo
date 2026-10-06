@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "id": "ketupa-industry-default",
+  "version": "1.0.2",
+  "builtin": true,
+  "extends": "base",
+  "columns": {},
+  "classification": {
+    "minimum_family_score": 6.0,
+    "minimum_family_margin": 2.0
+  },
+  "family_rules": {
+    "lpddr": [
+      {"field": "net_name", "pattern": "LPDDR[2-6X]?|DDR[2-6X]?|GDDR[3-7X]?", "weight": 20},
+      {"field": "net_name", "pattern": "(?:^|[_\\-.])(?:DQS|DQ[0-9]+|WCK|DBI|DMI|CKE|ODT)(?:$|[_\\-.])", "weight": 9}
+    ],
+    "pcie": [
+      {"field": "net_name", "pattern": "PCIE|PCI[_\\-.]?EXPRESS|PEX", "weight": 20},
+      {"field": "net_name", "pattern": "(?:TX|RX).*(?:DP|DN|P|N)", "weight": 7}
+    ],
+    "serdes": [
+      {"field": "net_name", "pattern": "^SDS[0-9]+[_\\-.]+(?:TX|RX)[0-9]+[_\\-.]+(?:IN|OUT)[PN][_\\-.]+D[1-5]$", "weight": 25},
+      {"field": "net_name", "pattern": "SERDES|SDS[0-9]*|HSS|HSIO|XFI|SFI|CEI|KR[1248]?|USB[34]?|SATA|UFS", "weight": 20},
+      {"field": "net_name", "pattern": "(?:TX|RX).*(?:DP|DN|P|N)", "weight": 7}
+    ],
+    "pll_clk": [
+      {"field": "net_name", "pattern": "REF[_\\-.]?CLK|PCIE[_\\-.]?CLK|CLK|CLOCK|PLL|XTAL|OSC|XO", "weight": 20},
+      {"field": "net_name", "pattern": "(?:DP|DN|[_\\-.][PNCT*+])$", "weight": 7}
+    ]
+  },
+  "network_contracts": {
+    "lpddr": {
+      "pcb": {"recognizer": "industry", "unmatched_policy": "skip"},
+      "pkg": {"recognizer": "industry", "unmatched_policy": "skip"}
+    },
+    "pcie": {
+      "pcb": {"recognizer": "industry", "unmatched_policy": "skip"},
+      "pkg": {"recognizer": "industry", "unmatched_policy": "skip"}
+    },
+    "serdes": {
+      "pcb": {"recognizer": "industry", "unmatched_policy": "skip"},
+      "pkg": {"recognizer": "industry", "unmatched_policy": "skip"}
+    },
+    "pll_clk": {
+      "pcb": {"recognizer": "industry", "unmatched_policy": "skip"},
+      "pkg": {"recognizer": "industry", "unmatched_policy": "skip"}
+    }
+  },
+  "endpoint_order_rules": [
+    {"id": "host", "refdes_pattern": "^(?:CPU|SOC|HOST|ASIC|FPGA|AP|GPU|G)[A-Z0-9_.-]*$", "rank": 10},
+    {"id": "generic-ic", "refdes_pattern": "^(?:U|IC)[A-Z0-9_.-]*$", "rank": 20},
+    {"id": "package", "refdes_pattern": "^(?:PKG|BGA|SUBSTRATE)[A-Z0-9_.-]*$", "rank": 30},
+    {"id": "passive", "refdes_pattern": "^(?:C|R|L|FB)(?:[0-9]|$)[A-Z0-9_.-]*$", "rank": 40},
+    {"id": "memory", "refdes_pattern": "^(?:DDR|DRAM|MEM|DIMM)[A-Z0-9_.-]*$", "rank": 50},
+    {"id": "die-bump", "refdes_pattern": "^(?:DIE|C4|BUMP|MICROBUMP)[A-Z0-9_.-]*$", "rank": 60},
+    {"id": "connector", "refdes_pattern": "^(?:J|CN|CON|EDGE)[A-Z0-9_.-]*$", "rank": 70}
+  ],
+  "component_role_rules": [
+    {"refdes_pattern": "^(?:CPU|SOC|HOST|ASIC|FPGA|AP|GPU|G)", "role": "HOST"},
+    {"refdes_pattern": "^(?:J|CN|CON|EDGE)", "role": "CONNECTOR"},
+    {"refdes_pattern": "^(?:DDR|DRAM|MEM|DIMM)", "role": "MEMORY"},
+    {"refdes_pattern": "^(?:DIE|C4|BUMP|MICROBUMP)", "role": "DIE_BUMP"}
+  ],
+  "defaults": {
+    "partition": "CHIP_1"
+  }
+}

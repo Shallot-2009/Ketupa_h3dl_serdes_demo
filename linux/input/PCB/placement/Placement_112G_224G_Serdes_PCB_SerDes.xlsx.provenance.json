@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "workflow": "serdes-pcb",
+  "requested_workflow": "serdes-merge",
+  "side": "pcb",
+  "stage": "02",
+  "artifact": "input/PCB/placement/Placement_112G_224G_Serdes_PCB_SerDes.xlsx",
+  "provenance": {
+    "schema_version": 1,
+    "layout": {
+      "bytes": 1761968,
+      "sha256": "021daa3c080484f2a971a34b56447047f1681819e63cf1104399e1c1003c6346"
+    },
+    "extractor": {
+      "bytes": 26713,
+      "sha256": "14a3d8654911e77e3352fe18fd60e71f4a7debd97bf8a26c5f87f582699d9c46"
+    },
+    "cadence_source_kind": "cadence_spb",
+    "cadence_report": {
+      "bytes": 1262,
+      "sha256": "c865dd3ae38551e1123003b4bdf22fdac4e4e1a18df0efbb4a5e9c4dc3f45b07"
+    }
+  }
+}

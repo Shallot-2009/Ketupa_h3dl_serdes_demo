@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "id": "example-company-project-x",
+  "version": "1.0.0",
+  "extends": "base",
+  "builtin": false,
+  "approval": {
+    "status": "draft",
+    "approved_by": ""
+  },
+  "columns": {
+    "net_name": ["CUSTOM_NET"],
+    "all_pins": ["CONNECTED_NODES"],
+    "group": ["BUS_GROUP"]
+  },
+  "family_rules": {
+    "pcie": [
+      {"field": "net_name", "pattern": "^PEX_", "weight": 20}
+    ]
+  },
+  "network_contracts": {
+    "lpddr": {
+      "pcb": {
+        "unmatched_policy": "skip",
+        "rules": [
+          {
+            "id": "customer-lpddr-pcb",
+            "pattern": "^MEMC(?P<controller>[0-9]+)-C(?P<channel>[A-Z]+)-(?P<signal>DQ|DQS|CA)(?P<index>[0-9]+)$",
+            "emit": {
+              "logical_id": "lpddr:{controller}:{channel}:{signal}:{index}",
+              "group": "MC{controller}",
+              "signal_type": "{signal}",
+              "segment": "board"
+            }
+          }
+        ]
+      },
+      "pkg": {
+        "unmatched_policy": "skip",
+        "rules": [
+          {
+            "id": "customer-lpddr-pkg",
+            "pattern": "^DIE(?P<controller>[0-9]+)_(?P<signal>DQ|DQS|CA)(?P<index>[0-9]+)_BANK(?P<channel>[A-Z]+)$",
+            "emit": {
+              "logical_id": "lpddr:{controller}:{channel}:{signal}:{index}",
+              "group": "MC{controller}",
+              "signal_type": "{signal}",
+              "segment": "package"
+            }
+          }
+        ]
+      }
+    },
+    "pcie": {
+      "pcb": {
+        "unmatched_policy": "skip",
+        "rules": [
+          {
+            "id": "customer-pcie-pcb",
+            "pattern": "^PEX_(?P<direction>RX|TX)(?P<lane>[0-9]+)_(?P<polarity>P|N)$",
+            "emit": {
+              "logical_id": "pcie:{direction}:{lane}:{polarity}",
+              "group": "{direction}{lane}",
+              "signal_type": "DIFF_{polarity}",
+              "polarity": "{polarity}",
+              "segment": "board"
+            }
+          }
+        ]
+      },
+      "pkg": {
+        "unmatched_policy": "skip",
+        "rules": [
+          {
+            "id": "customer-pcie-pkg",
+            "pattern": "^HS(?P<lane>[0-9]+)(?P<direction>RX|TX)(?P<polarity>P|N)$",
+            "emit": {
+              "logical_id": "pcie:{direction}:{lane}:{polarity}",
+              "group": "{direction}{lane}",
+              "signal_type": "DIFF_{polarity}",
+              "polarity": "{polarity}",
+              "segment": "package"
+            }
+          }
+        ]
+      }
+    },
+    "serdes": {
+      "pcb": {
+        "unmatched_policy": "skip",
+        "rules": [
+          {
+            "id": "customer-serdes-pcb",
+            "pattern": "^SLC(?P<macro>[0-9]+)-L(?P<lane>[0-9]+)-(?P<direction>RX|TX)-(?P<polarity>P|N)$",
+            "emit": {
+              "logical_id": "serdes:{macro}:{direction}:{lane}:{polarity}",
+              "group": "S{macro}_{direction}{lane}",
+              "signal_type": "DIFF_{polarity}",
+              "polarity": "{polarity}",
+              "segment": "board"
+            }
+          }
+        ]
+      },
+      "pkg": {
+        "unmatched_policy": "skip",
+        "rules": [
+          {
+            "id": "customer-serdes-pkg",
+            "pattern": "^PHY(?P<macro>[0-9]+)_(?P<direction>RX|TX)(?P<lane>[0-9]+)(?P<polarity>P|N)$",
+            "emit": {
+              "logical_id": "serdes:{macro}:{direction}:{lane}:{polarity}",
+              "group": "S{macro}_{direction}{lane}",
+              "signal_type": "DIFF_{polarity}",
+              "polarity": "{polarity}",
+              "segment": "package"
+            }
+          }
+        ]
+      }
+    },
+    "pll_clk": {
+      "pcb": {
+        "unmatched_policy": "skip",
+        "rules": [
+          {
+            "id": "customer-clk-pcb",
+            "pattern": "^REF100(?P<polarity>P|N)$",
+            "emit": {
+              "logical_id": "pll_clk:ref100:{polarity}",
+              "group": "REF100",
+              "signal_type": "DIFF_{polarity}",
+              "polarity": "{polarity}",
+              "segment": "board"
+            }
+          }
+        ]
+      },
+      "pkg": {
+        "unmatched_policy": "skip",
+        "rules": [
+          {
+            "id": "customer-clk-pkg",
+            "pattern": "^XO_OUT_(?P<polarity>P|N)$",
+            "emit": {
+              "logical_id": "pll_clk:ref100:{polarity}",
+              "group": "REF100",
+              "signal_type": "DIFF_{polarity}",
+              "polarity": "{polarity}",
+              "segment": "package"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "endpoint_rules": [
+    {"refdes_pattern": "^(CPU|SOC)", "target": "a"},
+    {"refdes_pattern": "^(CON|J|ASIC)", "target": "b"}
+  ],
+  "component_role_rules": [
+    {"refdes_pattern": "^(CPU|SOC)", "role": "HOST"},
+    {"refdes_pattern": "^(CON|J)", "role": "CONNECTOR"}
+  ],
+  "defaults": {
+    "partition": "PROJECT_X"
+  }
+}

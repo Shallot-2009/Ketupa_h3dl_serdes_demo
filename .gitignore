@@ -1,0 +1,19 @@
+# Runtime artifacts — never publish simulation results or local secrets.
+**/output/
+**/.cache/
+**/__pycache__/
+*.py[cod]
+*.log
+*.lock
+*.aedt.lock
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.lic
+private-build/
+build/
+*.tar.gz
+*.zip
+# Compiled native .so files and Demo .aedb data ARE intentional release assets.

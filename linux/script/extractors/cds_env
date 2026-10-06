@@ -1,0 +1,5 @@
+# OpenKetupa host environment. This file is the primary configuration source.
+# List Cadence versions from preferred to fallback, separated by ':' on Linux.
+PYTHON_EXE=/home/EDA/openketupa-runtime-linux/runtime/bin/python
+CADENCE_TOOLS_BIN=/home/EDA/cadence/SPB241_Linux/tools/bin:/home/EDA/cadence/SPB174_Linux/tools/bin
+KETUPA_ANSYSEDT=/home/EDA/ansys/Ansys_Linux_V2026R1/v261/AnsysEM

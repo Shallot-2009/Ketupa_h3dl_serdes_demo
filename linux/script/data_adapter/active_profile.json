@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "mode": "hybrid",
+  "profile": "industry_default",
+  "require_approved_customer_profile": true,
+  "llm_runtime": false
+}

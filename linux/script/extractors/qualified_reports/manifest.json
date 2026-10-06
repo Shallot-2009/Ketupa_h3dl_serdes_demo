@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "reports": [
+    {
+      "design": "112G_224G_Serdes_PKG.sip",
+      "report_code": "net",
+      "source_bytes": 1329412,
+      "source_sha256": "3332c41f8c8cbf9de438ab626a0dbfa1baa02f62c44beac2a895be4ebe229423",
+      "report": "112G_224G_Serdes_PKG_net_v2.htm",
+      "report_bytes": 267,
+      "report_sha256": "5e34bfd7ffcb496ef383c0eb289c02948dd3e4b39900850e0d46c2e923aff476",
+      "qualification": "Recovered release workbook; exact BGA-to-DIE rows verified before snapshot publication."
+    }
+  ]
+}
