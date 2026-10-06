@@ -38,22 +38,33 @@ cd serdes_linux
 先在 `script/extractors/cds_env` 中填写工具路径：
 
 ~~~ini
-PYTHON_EXE=/home/EDA/openketupa-runtime-linux/runtime/bin/python3
+PYTHON_EXE=/home/EDA/openketupa-runtime-linux/ketupa
 CADENCE_TOOLS_BIN=/your/cadence/tools/bin
 KETUPA_ANSYSEDT=/your/ansys/AnsysEM
 ~~~
 
-多个 Cadence 路径用 `:` 分隔。项目不附 Excel，首次运行须生成 PCB 网络表、PCB 放置表和 PKG 网络表：
+`PYTHON_EXE` 是现有配置项名称，值必须指向 `ketupa` 启动器，不要填写 `python` 或 `python3`。多个 Cadence 路径用 `:` 分隔。
+
+以下命令均在 `serdes_linux` 目录执行。项目不附 Excel，首次运行先生成 PCB 网络表、PCB 放置表和 PKG 网络表，再检查和建模：
 
 ~~~bash
 ketupa run -sh main.py -- doctor
+./script/00_Preprocess.sh serdes all --force
 ketupa run -sh main.py -- audit
-ketupa run -sh main.py -- preprocess serdes all -- --force
 ketupa run -sh main.py -- --dry-run
 ketupa run -sh main.py
 ~~~
 
-默认执行 Merge、Mode 0，仅建模保存。后续输入未变时，直接执行最后一条命令。更换版图后重新预处理。
+也可以分步生成网络表和放置表，无需与上面的 `00_Preprocess.sh` 重复执行：
+
+~~~bash
+./script/01_Netlist.sh serdes all --force
+./script/02_Placement.sh serdes pcb --force
+~~~
+
+`serdes` 指定信号类型，`all` 同时处理 PCB 和 PKG；放置表仅需处理 `pcb`。`--force` 强制重新生成已有表格。当前版本不要使用 `serdes all YES`：`YES` 会被解析为版图文件名，强制生成请使用 `--force`。
+
+默认执行 Merge、Mode 0，仅建模保存。后续输入未变时，直接执行 `ketupa run -sh main.py`。更换版图后重新预处理。
 
 | 命令 | 用途 |
 |---|---|
