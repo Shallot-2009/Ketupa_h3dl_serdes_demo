@@ -8,7 +8,9 @@
 
 面向 112G/224G SerDes 通道的 HFSS 3D Layout 自动建模 Demo：以同一组设计输入运行 PCB、PKG 或 Merge 工作流。名称中的速率是 Demo 应用场景，不代表已完成相应速率的电气合规验证。
 
-**作者：** hongbo.li
+**作者：** Asenjo.HB.L
+
+**地点：** China · Shanghai
 
 **联系方式：** asenjoaupa@gmail.com · 3405802009@qq.com
 

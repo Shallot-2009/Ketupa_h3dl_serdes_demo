@@ -8,7 +8,9 @@
 
 An HFSS 3D Layout automation demo for 112G/224G SerDes channel studies, covering PCB, package, and combined PCB–package models. The data-rate labels describe the intended application; they do not claim completed electrical compliance.
 
-**Author:** hongbo.li
+**Author:** Asenjo.HB.L
+
+**Location:** China · Shanghai
 
 **Contact:** asenjoaupa@gmail.com · 3405802009@qq.com
 
