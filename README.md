@@ -4,21 +4,19 @@
 
 **Linux x86_64 | CPython 3.12 | Native core | v1.0.1**
 
-[中文使用指南](#中文使用指南) · [English guide](#english-guide) · [License](LICENSE)
+[简体中文（当前）](README.md) | [English](README_EN.md) | [许可证](LICENSE)
 
 面向 112G/224G SerDes 通道的 HFSS 3D Layout 自动建模 Demo：以同一组设计输入运行 PCB、PKG 或 Merge 工作流。名称中的速率是 Demo 应用场景，不代表已完成相应速率的电气合规验证。
 
-An HFSS 3D Layout automation demo for 112G/224G SerDes channel studies, covering board, package and combined models. The data-rate labels describe the application, not a claim of electrical compliance.
+**作者：** hongbo.li
 
-**作者 / Author:** hongbo.li
+**联系方式：** asenjoaupa@gmail.com · 3405802009@qq.com
 
-**联系 / Contact:** asenjoaupa@gmail.com · 3405802009@qq.com
-
-**许可 / License:** Proprietary Evaluation License — public distribution, closed native core; not an open-source license.
+**许可：** Proprietary Evaluation License（公开分发、闭源原生核心，不是开源许可证）
 
 ![HFSS 3D Layout — SerDes PCB–PKG Merge model, RX0 top view](assets/hfss-serdes-merge.jpg)
 
-*真实工程视图 / Actual model view: AEDT 2026 R1, `serdes_merge_SDS_RX0_CHIP1`, RX0. Exported directly from the saved model on 2026-10-06; this is a layout view, not a field plot or solved result.*
+*真实工程视图：AEDT 2026 R1，`serdes_merge_SDS_RX0_CHIP1`，RX0。该图于 2026-10-06 从已保存工程直接导出，是布局视图，不是场分布图或求解结果。*
 
 ## 中文使用指南
 
@@ -28,7 +26,8 @@ An HFSS 3D Layout automation demo for 112G/224G SerDes channel studies, covering
 
 ```text
 Ketupa_h3dl_serdes_demo/
-├── README.md                     中英文完整使用说明
+├── README.md                     中文完整使用说明（GitHub 主页面）
+├── README_EN.md                  English guide
 ├── LICENSE                       专有 Demo 评估许可
 ├── SHA256SUMS                    发布文件校验清单
 ├── assets/                       实际 HFSS 模型视图
@@ -233,76 +232,3 @@ ketupa run -sh main.py -- export serdes merge --project /absolute/path/channel.a
 本仓库是**公开可下载的专有 Demo，不是开源核心**。采用 [Proprietary Evaluation License](LICENSE)：允许学习、研究、企业内部非生产评估及修改开放脚本/配置；商业生产、付费交付或修改版分发需联系作者。GitHub 可能将自定义许可显示为 “Other” 而非标准开源许可证。
 
 原生编译、符号裁剪与完整性校验提高逆向成本，**不等同于密码学加密，不能保证绝对保密或不可逆向**。用户可见自己的输入、参数、日志及生成工程；公开仓库不能隐藏其提交历史中的文件。不要提交许可证、API 密钥、私有设计或核心构建源码。Ansys/Cadence 等商标归各自权利人所有，本项目不表示官方认证或合作。
-
-## English guide
-
-### Purpose and distribution
-
-This repository ships a Linux native SerDes channel-modeling demo with **PCB, PKG and Merge** workflows. The editable entry point is `linux/main.py`; extraction and classification code remains available in `linux/script/`. The modeling core, workflow implementation and resource policy are compiled into **119 native `.so` extensions**. The complete public Demo input set is included: PCB BRD, PKG SIP/AEDB, stackups, three spreadsheets with provenance records, and a connector component.
-
-This is not a standalone EDA installation, an open-source release of the core, or a Windows package. No vendor software/license, private build source, historical simulation output or separate documentation bundle is shipped.
-
-### Prerequisites and quick start
-
-Use **Linux x86_64 with compatible glibc and CPython 3.12**, an installed/authorized Ketupa runtime, Ansys Electronics Desktop with HFSS 3D Layout, and Cadence SPB tools for applicable layout import/preprocessing. This package cannot be used as-is on Windows, ARM, PyPy or a different Python minor ABI. The `doctor` command checks runtime dependencies such as openpyxl, NumPy, cryptography, PyEDB and psutil. Obtain the correct Ketupa launcher/runtime from the author if it is not already installed.
-
-```bash
-git clone https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo.git
-cd Ketupa_h3dl_serdes_demo
-sha256sum -c SHA256SUMS
-cd linux
-```
-
-For a ZIP download, extract the entire repository and enter `linux/`. First edit the three paths in `script/extractors/cds_env`: `PYTHON_EXE` (Ketupa's Python 3.12), `CADENCE_TOOLS_BIN` (colon-separated preferred/fallback Cadence bin directories), and `KETUPA_ANSYSEDT` (AnsysEM directory). The shipped `/home/EDA/...` values are examples, not portable installation defaults. Configure vendor licensing through normal licensed installation procedures; never commit license files or API keys.
-
-```bash
-ketupa run -sh main.py -- list
-ketupa run -sh main.py -- doctor
-ketupa run -sh main.py -- audit
-ketupa run -sh main.py -- --dry-run
-ketupa run -sh main.py
-```
-
-`list` displays available workflows; `doctor` checks the environment; `audit` checks structure, configuration and native integrity; `--dry-run` resolves inputs/groups and resource plans without starting modeling workers. The last command runs the saved defaults: **Merge, Mode 0 (build/save only)**. Mode 1 builds, solves and exports where supported, requiring suitable solver licenses and resources. Startup messages such as “Layout input: not provided” describe outer CLI overrides; the actual inputs are resolved from `main.py` afterward. “[managed resource]” is a masked path, not a literal filename.
-
-### Configure only main.py for normal operation
-
-Set `SELECTIONS` to PCB, PKG, Merge or any of the seven nonempty combinations shown in the bilingual table above. For all three, use `(("serdes", "all"),)`. Merge imports both sides itself; running the two standalone workflows first is unnecessary. Selected workflows run sequentially, with per-network-group parallel workers inside each workflow.
-
-Use `INPUTS["default"]` for shared layouts, stackups and spreadsheets. Optional `INPUTS["serdes-pkg"]` or other exact-workflow overrides replace only fields that differ. Netlist/placement values accept a specific Excel/CSV file or a matching directory; an AEDB layout value is the directory containing `edb.def`. Keep layout, stackup, netlist and placement data consistent with the same design.
-
-In `RUN_OPTIONS`, `mode=0` builds and `mode=1` solves; `dry_run=True` only checks; `prefix="ALL"` selects matching nets; `parallel_groups=""` selects all groups and `"ALL|SDS_RX0"` selects one example group; `max_workers=None` uses the resource policy, while `1` reduces concurrency. Automatic memory guards remain active. `preprocess=False` uses bundled spreadsheets. Set it to `True` only when fresh extraction is needed, with `preprocess_entry="sh"`. `signoff=False` is the default: unapproved electrical limits are not a PASS.
-
-For temporary overrides:
-
-```bash
-ketupa run -sh main.py -- run serdes pcb --mode 0
-ketupa run -sh main.py -- run serdes pkg --mode 0
-ketupa run -sh main.py -- run serdes merge --mode 0
-ketupa run -sh main.py -- run-many serdes-pcb serdes-pkg --dry-run
-ketupa run -sh main.py -- run-all --dry-run
-ketupa run -sh main.py -- --max-workers 1 --parallel-groups 'ALL|SDS_RX0'
-ketupa run -sh main.py -- run --help
-```
-
-### Preprocessing, geometry and results
-
-The bundled spreadsheets are ready for the supplied Demo. For a new design, update the inputs, then use `bash script/00_Preprocess.sh` and follow the interactive signal/group/confirmation prompts, or run `ketupa run -sh main.py -- --preprocess-first`. The open extraction/classification rules can be extended to other naming conventions; universal recognition of arbitrary names is not guaranteed. Optional LLM integration is not needed for default operation, and external transmission of design data requires authorization.
-
-PCB models terminate at **BGA solder balls and connectors**; PKG models at **C4 bumps and BGA solder balls**; Merge models at **C4 bumps and PCB connectors**, without intermediate BGA ports. PCB/PKG cutout margins are **3.5 mm / 1 mm**. C4 is chip-down Flip-Chip with **60 µm height and 65 µm radius** in the actual `sbr` parameter; the historical filename is not a diameter specification. BGA uses the **0.5 mm pitch** library. Merge keeps the C4 reference treatment while disabling the intermediate BGA helper PEC sheet, uses placement side/rotation for alignment, and preserves independent VSS/AGND nets rather than shorting them arbitrarily.
-
-Generated files go to `linux/output/`, organized by workflow and run ID as shown above. Open the current run's final `.aedt` in AEDT and keep its associated `.aedb`/components together. `h3d_projects/models.json` identifies the actual per-group projects; input layouts and cutout intermediates are not the final channel results. Logs and task state document execution. Mode 0 and dry-run do not provide new solved S-parameters. After a manual solve, an explicit export can target a saved project:
-
-```bash
-ketupa run -sh main.py -- export serdes merge --project /absolute/path/channel.aedt
-```
-
-### Evidence, troubleshooting and licensing
-
-On **2026-10-06**, all seven selection combinations passed dry-run. One RX0 group in each scenario built successfully on **AEDT 2026 R1**; saved port names/order/impedances/references matched the corresponding source implementation and reopening each model returned `1` from `ValidateCircuit()`. The native default Merge also built both RX/TX groups through the real `ketupa` launcher with **2 completed, 0 failed**. Relocated `linux/` inputs and native integrity were checked again for publication. The images above are direct AEDT exports from saved models, not field plots or solved-data claims.
-
-**Not validated:** complete Mode 1 solving, mesh convergence, electrical signoff, AEDT 2025 on a real installation, Windows/ARM or every Linux distribution. Compatibility code paths do not substitute for real-version qualification. PCB/Merge connector instances J3D1/J3D2 retain an AEDT “does not contain any priority bodies” warning; passing design validation does not prove material-overlap or electrical accuracy. No automatic physics change was made to conceal that warning.
-
-If a netlist path is missing, restore the bundled spreadsheets or preprocess the matching design; `preprocess=False` does not regenerate them. For import/ABI failures, check the complete native tree and Python 3.12/x86_64. For Extracta failures, correct the Cadence path and run `doctor`. For launcher license-directory permission errors, have an administrator restore appropriate read/traverse permissions rather than making directories world-writable or bypassing licensing. Limit memory use with `--max-workers 1`. TBD electrical-limit notes must not be represented as compliance PASS.
-
-The [Proprietary Evaluation License](LICENSE) permits learning, research and internal non-production evaluation, with modifications to the exposed configuration/scripts for those purposes. Commercial production, paid delivery and redistribution of modified versions require written permission. GitHub may label this custom license “Other”; it is not MIT, GPL or another OSI-approved license. Native compilation, symbol stripping and integrity checks increase reverse-engineering cost, **but are not cryptographic encryption or an absolute secrecy guarantee**. Third-party licenses and trademarks remain with their owners; no vendor endorsement is implied.
