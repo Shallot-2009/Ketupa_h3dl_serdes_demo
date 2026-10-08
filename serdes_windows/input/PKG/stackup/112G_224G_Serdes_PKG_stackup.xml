@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<c:Control xmlns:c="http://www.ansys.com/control" schemaVersion="1.0">
+
+  <Stackup schemaVersion="1.0">
+    <Materials>
+      <Material Name="COPPER">
+        <Conductivity>
+          <Double>59600000</Double>
+        </Conductivity>
+      </Material>
+      <Material Name="GL107">
+        <Permittivity>
+          <Equation>3.26792+0.00316392*ln((2.53303e+22+Freq*Freq)/(8.84221e+08+Freq*Freq))</Equation>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Equation>1e-12+3.52034e-13*Freq*(atan(Freq/29735.9)-atan(Freq/1.59155e+11))</Equation>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="SolderMask_3.16">
+        <Permittivity>
+          <Double>3.16</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0.012</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="core_">
+        <Permittivity>
+          <Double>4.3</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0.004</Double>
+        </DielectricLossTangent>
+      </Material>
+    </Materials>
+    <Layers LengthUnit="um">
+      <Layer Color="#44614c" Material="SolderMask_3.16" Name="SolderMask_TOP" Thickness="21" Type="dielectric"/>
+      <Layer Color="#553755" FillMaterial="GL107" Material="COPPER" Name="L1" Thickness="15" Type="conductor"/>
+      <Layer Color="#264a33" Material="GL107" Name="V12" Thickness="30" Type="dielectric"/>
+      <Layer Color="#289889" FillMaterial="GL107" Material="COPPER" Name="L2" Thickness="15" Type="conductor">
+        <HuraySurfaceRoughness HallHuraySurfaceRatio="5.2" NoduleRadius="0.09um"/>
+        <HurayBottomSurfaceRoughness HallHuraySurfaceRatio="2.9" NoduleRadius="0.5um"/>
+        <HuraySideSurfaceRoughness HallHuraySurfaceRatio="2.9" NoduleRadius="0.5um"/>
+      </Layer>
+      <Layer Color="#1a291f" Material="GL107" Name="V23" Thickness="30" Type="dielectric"/>
+      <Layer Color="#868feb" FillMaterial="GL107" Material="COPPER" Name="L3" Thickness="15" Type="conductor">
+        <HuraySurfaceRoughness HallHuraySurfaceRatio="5.2" NoduleRadius="0.09um"/>
+        <HurayBottomSurfaceRoughness HallHuraySurfaceRatio="2.9" NoduleRadius="0.5um"/>
+        <HuraySideSurfaceRoughness HallHuraySurfaceRatio="2.9" NoduleRadius="0.5um"/>
+      </Layer>
+      <Layer Color="#44614c" Material="GL107" Name="V34" Thickness="30" Type="dielectric"/>
+      <Layer Color="#efa15d" FillMaterial="GL107" Material="COPPER" Name="L4" Thickness="20" Type="conductor">
+        <HuraySurfaceRoughness HallHuraySurfaceRatio="5.2" NoduleRadius="0.09um"/>
+        <HurayBottomSurfaceRoughness HallHuraySurfaceRatio="2.9" NoduleRadius="0.5um"/>
+        <HuraySideSurfaceRoughness HallHuraySurfaceRatio="2.9" NoduleRadius="0.5um"/>
+      </Layer>
+      <Layer Color="#264a33" Material="core_" Name="V45" Thickness="200" Type="dielectric"/>
+      <Layer Color="#f67fc1" FillMaterial="GL107" Material="COPPER" Name="L5" Thickness="20" Type="conductor"/>
+      <Layer Color="#1a291f" Material="GL107" Name="V56" Thickness="30" Type="dielectric"/>
+      <Layer Color="#fd777a" FillMaterial="GL107" Material="COPPER" Name="L6" Thickness="15" Type="conductor"/>
+      <Layer Color="#44614c" Material="GL107" Name="V67" Thickness="30" Type="dielectric"/>
+      <Layer Color="#8db7ca" FillMaterial="GL107" Material="COPPER" Name="L7" Thickness="15" Type="conductor"/>
+      <Layer Color="#264a33" Material="GL107" Name="V78" Thickness="30" Type="dielectric"/>
+      <Layer Color="#5c4300" FillMaterial="GL107" Material="COPPER" Name="L8" Thickness="15" Type="conductor"/>
+      <Layer Color="#1a291f" Material="SolderMask_3.16" Name="SolderMask_BOTTOM" Thickness="21" Type="dielectric"/>
+      <Layer Color="#d198b1" Name="Outline" Type="outline"/>
+    </Layers>
+  </Stackup>
+
+</c:Control>

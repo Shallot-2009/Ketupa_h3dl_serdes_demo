@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "product": "Ketupa H3DL SerDes Windows Demo",
+  "version": "1.0.1",
+  "revision": "windows-native-demo",
+  "release_status": "AWAITING_LICENSED_WINDOWS_MODE0_ACCEPTANCE",
+  "author": "hongbo.li",
+  "emails": [
+    "asenjoaupa@gmail.com",
+    "3405802009@qq.com"
+  ],
+  "tested_python": "3.12.15",
+  "tested_platform": "Windows x64",
+  "physical_compatibility": "AEDT versions must be qualified per acceptance matrix",
+  "public_entries": [
+    "main.py",
+    "script/00_Preprocess.py",
+    "script/01_Netlist.py",
+    "script/02_Placement.py"
+  ],
+  "preserve_scenario_templates": "lib/vbsmodule",
+  "input_priority": [
+    "saved_main",
+    "current_input_map",
+    "explicit_path_flags"
+  ],
+  "software_tests": "Offline parity evidence in README.md; private tests excluded from distribution",
+  "verification_entry": "script/03_Verify.py",
+  "acceptance_policy": "Mode 0 model review and full electrical acceptance are separate. Hashes are integrity evidence, not digital signatures.",
+  "license": "Proprietary"
+}

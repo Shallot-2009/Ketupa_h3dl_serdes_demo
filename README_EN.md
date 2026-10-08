@@ -2,15 +2,40 @@
 
 [简体中文](README.md) | [English](README_EN.md) | [License](LICENSE)
 
-HFSS 3D Layout modeling for 112G/224G SerDes channels: PCB, package and PCB–package Merge. Version v1.0.1, Linux x86_64 / CPython 3.12.
+HFSS 3D Layout modeling for 112G/224G SerDes channels: PCB, package and PCB–package Merge. Version v1.0.1, Linux / Windows x64, CPython 3.12.
 
 Author: Asenjo.HB.L · China, Shanghai
 
 Contact: asenjoaupa@gmail.com · 3405802009@qq.com
 
+## Choose your platform
+
+| Platform | Entry | Native core | Qualification |
+|---|---|---|---|
+| Linux x86_64 | [serdes_linux](serdes_linux/README.md) | `.so` | Existing Linux acceptance evidence retained below |
+| Windows x64 | [serdes_windows](serdes_windows/README.md) | `.pyd` | Offline source/native parity passed; licensed startup and real three-case modeling acceptance pending |
+
+Both use the same public layout, stackup and connector input files, three workflows, editable `main.py` and preprocessing scripts. Linux physical results do not qualify Windows. Windows defaults to SIP with `report.exe`; Linux defaults to AEDB. Native binaries are not interchangeable across platforms.
+
+### Windows quick start
+
+Install the Windows Runtime below, import the Release asset `Ketupa-Demo-30-Day-Trial.lic` in License Manager and enable its service. Trial validity, binding and license terms still apply. The repository's `LICENSE` document is not an activation file.
+
+In `serdes_windows`, configure `script/extractors/cds_env` following the [Windows instructions](serdes_windows/README.md), then run:
+
+```bat
+ketupa run -sh main.py -- doctor
+ketupa run -sh main.py -- preprocess serdes all -- --force
+ketupa run -sh main.py -- audit
+ketupa run -sh main.py -- --dry-run
+ketupa run -sh main.py
+```
+
+Alternatively double-click `script/00_Preprocess.exe`; logs go to `output/logs/preprocessing`. Default: Merge / Mode 0. Individual cases use `run serdes pcb`, `run serdes pkg`, or `run serdes merge`. No core source, customer input, private keys, activated licenses or output artifacts are published in the Windows folder. Existing shell examples and physical acceptance records below refer to Linux only.
+
 ## Requirements and downloads
 
-Requires licensed Ketupa with `ketupa-launch-v1`, Ansys Electronics Desktop and Cadence SPB. Runtime environment: Linux x86_64 / CPython 3.12.
+Requires licensed Ketupa, Ansys Electronics Desktop and Cadence SPB. Linux uses `ketupa-launch-v1`; Windows validates the matched official Runtime, live Ketupa process ancestry and licensing service. Both require platform-native CPython 3.12; ordinary Python is not a substitute for an authorized launch.
 
 [Runtime installers](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/runtime-v1.0.0):
 

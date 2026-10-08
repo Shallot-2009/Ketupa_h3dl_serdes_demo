@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "id": "serdes-merge",
+  "technology": "serdes",
+  "topology": "merge",
+  "entrypoint": "modules/workflow/serdes_merge.py",
+  "preprocess": "script/00_Preprocess.py",
+  "inputs": {
+    "pcb_layout": [
+      ".brd"
+    ],
+    "pkg_layout": [
+      ".mcm",
+      ".sip"
+    ],
+    "pcb_netlist": [
+      ".xlsx",
+      ".xlsm",
+      ".csv"
+    ],
+    "pkg_netlist": [
+      ".xlsx",
+      ".xlsm",
+      ".csv"
+    ],
+    "pcb_stackup": [
+      ".xml",
+      ".py"
+    ],
+    "pkg_stackup": [
+      ".xml",
+      ".py"
+    ],
+    "pcb_placement": [
+      ".xlsx",
+      ".xlsm",
+      ".csv"
+    ],
+    "connector": [
+      ".a3dcomp"
+    ]
+  },
+  "modes": {
+    "0": "build_validate_save",
+    "1": "build_solve_export"
+  },
+  "network_contract": "PCB/PKG SerDes direction + lane + P/N normalized identity",
+  "placement_contract": {
+    "anchor": "PCB CHIP",
+    "connector": "J*",
+    "sides": [
+      "TOP",
+      "BOTTOM",
+      "BOT"
+    ],
+    "automatic_mask_height": true
+  },
+  "reports": [
+    "SDD11",
+    "SDD22",
+    "SDD21",
+    "differential_TDR",
+    "PN_skew"
+  ],
+  "markers_ghz": [
+    28,
+    56
+  ],
+  "geometry": {
+    "pcb_cutout": "3.5mm",
+    "pkg_cutout": "1mm"
+  },
+  "output_contract": {
+    "project_label": "KETUPA_H3DL_SERDES_MERGE",
+    "design_prefix": "SERDES_PKG_PCB_MERGE_CHANNEL",
+    "task_root": "output/serdes_merge/<action_task_id>",
+    "projects": "output/serdes_merge/<action_task_id>/h3d_projects",
+    "parallel_projects": "output/serdes_merge/<action_task_id>/h3d_projects/parallel_workers/<model>",
+    "results": "output/serdes_merge/<action_task_id>/results",
+    "parallel_results": "output/serdes_merge/<action_task_id>/results/parallel_workers/<model>",
+    "automatic_sparameter_export": "output/S-parameter_Export/<workflow>/<action_task_id>/<design>",
+    "result_layout": {
+      "s_parameters": "s_parameters/*.sNp",
+      "report_csv": "reports/csv/*.csv",
+      "report_bmp": "reports/bmp/*.bmp",
+      "summaries": "summaries/",
+      "manifests": "manifests/*.json"
+    },
+    "logs": "output/serdes_merge/<action_task_id>/logs/global/workflow.log",
+    "log_layout": {
+      "resources": "logs/global/resource_allocation.json",
+      "worker": "logs/models/<model>/worker.log",
+      "aggregate": "logs/all.log",
+      "summary": "logs/summary.log"
+    }
+  },
+  "author": {
+    "name": "hongbo.li",
+    "emails": [
+      "asenjoaupa@gmail.com",
+      "3405802009@qq.com"
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "workflows": [
+    {
+      "id": "serdes-pcb",
+      "technology": "serdes",
+      "topology": "pcb",
+      "module": "serdes_pcb",
+      "entrypoint": "modules/workflow/serdes_pcb.py"
+    },
+    {
+      "id": "serdes-pkg",
+      "technology": "serdes",
+      "topology": "pkg",
+      "module": "serdes_pkg",
+      "entrypoint": "modules/workflow/serdes_pkg.py"
+    },
+    {
+      "id": "serdes-merge",
+      "technology": "serdes",
+      "topology": "merge",
+      "module": "serdes_merge",
+      "entrypoint": "modules/workflow/serdes_merge.py"
+    }
+  ]
+}

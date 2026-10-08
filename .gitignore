@@ -3,6 +3,7 @@
 **/.cache/
 **/__pycache__/
 *.py[cod]
+!*.pyd
 *.log
 *.lock
 *.aedt.lock

@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "id": "serdes-pcb",
+  "technology": "serdes",
+  "topology": "pcb",
+  "entrypoint": "modules/workflow/serdes_pcb.py",
+  "preprocess": "script/00_Preprocess.py",
+  "inputs": {
+    "layout": [
+      ".brd",
+      ".mcm",
+      ".sip"
+    ],
+    "netlist": [
+      ".xlsx",
+      ".xlsm",
+      ".csv"
+    ],
+    "stackup": [
+      ".xml",
+      ".py"
+    ],
+    "placement": [
+      ".xlsx",
+      ".xlsm",
+      ".csv"
+    ],
+    "connector": [
+      ".a3dcomp"
+    ]
+  },
+  "modes": {
+    "0": "build_validate_save",
+    "1": "build_solve_export"
+  },
+  "network_contract": "SDS + RX/TX + lane + P/N",
+  "placement_contract": {
+    "chip_refdes": "U*",
+    "connector_refdes": "J*",
+    "sides": [
+      "TOP",
+      "BOTTOM",
+      "BOT"
+    ]
+  },
+  "reports": [
+    "SDD11",
+    "SDD22",
+    "SDD21",
+    "differential_TDR",
+    "PN_skew"
+  ],
+  "markers_ghz": [
+    28,
+    56
+  ],
+  "geometry": {
+    "cutout": "3.5mm"
+  },
+  "output_contract": {
+    "project_label": "KETUPA_H3DL_SERDES_PCB",
+    "design_prefix": "SERDES_PCB_CHANNEL",
+    "task_root": "output/serdes_pcb/<action_task_id>",
+    "projects": "output/serdes_pcb/<action_task_id>/h3d_projects",
+    "parallel_projects": "output/serdes_pcb/<action_task_id>/h3d_projects/parallel_workers/<model>",
+    "results": "output/serdes_pcb/<action_task_id>/results",
+    "parallel_results": "output/serdes_pcb/<action_task_id>/results/parallel_workers/<model>",
+    "automatic_sparameter_export": "output/S-parameter_Export/<workflow>/<action_task_id>/<design>",
+    "result_layout": {
+      "s_parameters": "s_parameters/*.sNp",
+      "report_csv": "reports/csv/*.csv",
+      "report_bmp": "reports/bmp/*.bmp",
+      "summaries": "summaries/",
+      "manifests": "manifests/*.json"
+    },
+    "logs": "output/serdes_pcb/<action_task_id>/logs/global/workflow.log",
+    "log_layout": {
+      "resources": "logs/global/resource_allocation.json",
+      "worker": "logs/models/<model>/worker.log",
+      "aggregate": "logs/all.log",
+      "summary": "logs/summary.log"
+    }
+  },
+  "author": {
+    "name": "hongbo.li",
+    "emails": [
+      "asenjoaupa@gmail.com",
+      "3405802009@qq.com"
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "c4_height_um": 60,
+  "c4_radius_um": 65,
+  "c4_mid_radius_um": 65,
+  "bga_library_pitch_mm": 0.5,
+  "bga_sbh_mm": 0.21,
+  "bga_sbr_mm": 0.25,
+  "bga_sb2_mm": 0.31,
+  "pcb_cutout_mm": 3.5,
+  "pkg_cutout_mm": 1,
+  "port_impedance_ohm": 45,
+  "reference_template_sha256": {
+    "SOC_0.5mm_Pitch_BGA_Ball_Bottom.py": "d69e6934074bbb2c20bf953f51b6962b175db7770572a97e15c89065b194249d",
+    "SOC_C4Bump_D_65um_H_60um.py": "5ead54ae90bb5a544248898437e065b460432243f5edddf7b248010de1b73075",
+    "SOC_0.5mm_Pitch_BGA_Ball_Top.py": "6f3191ff3532985f844a664f207af0616423316d142eb59e17caf37a764188a6"
+  },
+  "note": "Legacy internal aliases retained; actual literal arguments determine geometry."
+}

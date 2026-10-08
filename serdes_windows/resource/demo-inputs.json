@@ -1,0 +1,10 @@
+{
+  "Connector/connector/Stripline_connector_1p0mm_110GHz.a3dcomp": "6c1af97bcd7890196dcaeee9623b01937e6c391089fc76e46d90b0d56d591f2f",
+  "PCB/pcb/112G_224G_Serdes_PCB.brd": "021daa3c080484f2a971a34b56447047f1681819e63cf1104399e1c1003c6346",
+  "PCB/stackup/112G_224G_Serdes_PCB_stackup.xml": "b14acfb4e19bac049fc8e6ece3a5004c5ee2d3285669233354e76c1dd39282b8",
+  "PKG/pkg/112G_224G_Serdes_PKG.aedb/edb.def": "4c16e8cb29c0bd0142f32fe3d0d12a01c90575659442ae2282cd39c69938a59b",
+  "PKG/pkg/112G_224G_Serdes_PKG.aedb/edb.def+": "0a9dc5dec9b8b72c9aea22642a11e2d79a717defd14c42730660b821495e8313",
+  "PKG/pkg/112G_224G_Serdes_PKG.aedb/edb.def.bak": "96cdae4b0b3b046a5b7f72ffa0e358187a66559ebf166870dfa3249b3be6c106",
+  "PKG/pkg/112G_224G_Serdes_PKG.sip": "3332c41f8c8cbf9de438ab626a0dbfa1baa02f62c44beac2a895be4ebe229423",
+  "PKG/stackup/112G_224G_Serdes_PKG_stackup.xml": "7cedee3657c72741c403b959661c5f779f99caaf9d04e6128ad03bf586a13aaa"
+}

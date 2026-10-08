@@ -2,15 +2,40 @@
 
 [简体中文](README.md) | [English](README_EN.md) | [许可](LICENSE)
 
-112G/224G SerDes 通道建模，支持 PCB、PKG 和 PCB–PKG Merge。版本 v1.0.1，Linux x86_64 / CPython 3.12。
+112G/224G SerDes 通道建模，支持 PCB、PKG 和 PCB–PKG Merge。版本 v1.0.1，Linux / Windows x64，CPython 3.12。
 
 作者：Asenjo.HB.L · China, Shanghai
 
 联系：asenjoaupa@gmail.com · 3405802009@qq.com
 
+## 选择系统
+
+| 系统 | 项目入口 | 核心格式 | 验收范围 |
+|---|---|---|---|
+| Linux x86_64 | [serdes_linux](serdes_linux/README.md) | `.so` | 保留原有 Linux 验收记录，见下文 |
+| Windows x64 | [serdes_windows](serdes_windows/README.md) | `.pyd` | 离线白盒／原生模块一致性检查通过；正式授权启动和三场景实机建模仍待验收 |
+
+两者使用同一份公开的版图、叠层和连接器输入，均有 PCB / PKG / Merge 三种场景、`main.py` 配置入口和公开预处理脚本。**Linux 的建模成功记录不是 Windows 的验收结果。** Windows 使用 SIP 入口及 `report.exe`；Linux 默认使用 AEDB 入口。不要混用 `.so` 和 `.pyd`。
+
+### Windows 快速开始
+
+安装下方 Windows Runtime，在 License Manager 中导入 Release 的 `Ketupa-Demo-30-Day-Trial.lic` 并启用许可证服务。试用许可仍受有效期、绑定和授权条款限制；`LICENSE` 文档不能代替激活文件。
+
+进入 `serdes_windows`，按 [Windows 说明](serdes_windows/README.md) 配置 `script/extractors/cds_env`，再执行：
+
+```bat
+ketupa run -sh main.py -- doctor
+ketupa run -sh main.py -- preprocess serdes all -- --force
+ketupa run -sh main.py -- audit
+ketupa run -sh main.py -- --dry-run
+ketupa run -sh main.py
+```
+
+也可以双击 `script/00_Preprocess.exe` 预处理，日志写入 `output/logs/preprocessing`。默认建模为 Merge / Mode 0；选择单独场景使用 `run serdes pcb`、`run serdes pkg` 或 `run serdes merge`。公开的 Windows 项目不包含核心源码、客户输入、私钥、已激活许可证或运行结果。下方既有 shell 命令和物理验收记录专指 Linux。
+
 ## 环境与下载
 
-需要有效授权的 Ketupa（`ketupa-launch-v1`）、Ansys Electronics Desktop 和 Cadence SPB。运行环境：Linux x86_64 / CPython 3.12。
+需要有效授权的 Ketupa、Ansys Electronics Desktop 和 Cadence SPB。Linux 使用 `ketupa-launch-v1`；Windows 使用匹配的官方运行环境、存活的 Ketupa 启动进程及许可证服务校验。两者均要求各自平台的 CPython 3.12，不接受以普通 Python 替代正式授权启动。
 
 [Runtime 安装包](https://github.com/Shallot-2009/Ketupa_h3dl_serdes_demo/releases/tag/runtime-v1.0.0)：
 

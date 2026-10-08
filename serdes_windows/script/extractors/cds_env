@@ -1,0 +1,4 @@
+# Configure once on the target Windows PC. Do not copy licenses between machines.
+KETUPA_LAUNCHER=
+PYTHON_EXE=
+CADENCE_TOOLS_BIN=

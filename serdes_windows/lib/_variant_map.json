@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "modules": {
+    "api.py": {
+      "serdes-pcb": "profiles/api/serdes_pcb.py",
+      "serdes-pkg": "profiles/api/serdes_pkg.py",
+      "serdes-merge": "profiles/api/lpddr_merge__pcie_merge__pll_clk_merge__serdes_merge.py"
+    },
+    "ddr_pipeline.py": {
+      "serdes-merge": "profiles/ddr_pipeline/pcie_merge__serdes_merge.py",
+      "serdes-pkg": "profiles/ddr_pipeline/serdes_pkg.py",
+      "serdes-pcb": "profiles/ddr_pipeline/serdes_pcb.py"
+    },
+    "placement.py": {
+      "serdes-pcb": "profiles/placement/merge_and_serdes_pcb.py",
+      "serdes-merge": "profiles/placement/merge_and_serdes_pcb.py",
+      "serdes-pkg": "profiles/placement/standard_pcb_pkg.py"
+    },
+    "project_config.py": {
+      "serdes-pkg": "profiles/project_config/pcie_pcb__pcie_pkg__serdes_pkg.py",
+      "serdes-merge": "profiles/project_config/pcie_merge__serdes_merge.py",
+      "serdes-pcb": "profiles/project_config/serdes_pcb.py"
+    },
+    "project_runner.py": {
+      "serdes-pcb": "profiles/project_runner/serdes_pcb.py",
+      "serdes-pkg": "profiles/project_runner/pcie_pcb__pcie_pkg__serdes_pkg.py",
+      "serdes-merge": "profiles/project_runner/lpddr_merge__pcie_merge__pll_clk_merge__serdes_merge.py"
+    },
+    "serdes_merge.py": {
+      "serdes-merge": "profiles/serdes_merge/serdes_merge.py"
+    },
+    "serdes_pcb.py": {
+      "serdes-merge": "profiles/serdes_pcb/lpddr_merge__pcie_merge__pll_clk_merge__serdes_merge.py",
+      "serdes-pcb": "profiles/serdes_pcb/serdes_pcb.py"
+    },
+    "vbs_contract.py": {
+      "serdes-pcb": "profiles/vbs_contract/serdes_pcb.py",
+      "serdes-merge": "profiles/vbs_contract/pcie_merge__serdes_merge.py",
+      "serdes-pkg": "profiles/vbs_contract/pcie_pcb__pcie_pkg__serdes_pkg.py"
+    },
+    "vbsmodule/solder_soc_bga_0p8mm_bottom.py": {
+      "serdes-merge": "profiles/vbsmodule/solder_soc_bga_0p8mm_bottom/all_merge.py",
+      "serdes-pcb": "profiles/vbsmodule/solder_soc_bga_0p8mm_bottom/all_non_merge.py",
+      "serdes-pkg": "profiles/vbsmodule/solder_soc_bga_0p8mm_bottom/all_non_merge.py"
+    },
+    "vbsmodule/bump_soc_c4_d80um_h55um.py": {
+      "serdes-merge": "profiles/vbsmodule/bump_soc_c4_d80um_h55um/pcie_merge__serdes_merge.py",
+      "serdes-pcb": "profiles/vbsmodule/bump_soc_c4_d80um_h55um/all_non_merge.py",
+      "serdes-pkg": "profiles/vbsmodule/bump_soc_c4_d80um_h55um/all_non_merge.py"
+    },
+    "workflow_config.py": {
+      "serdes-pkg": "profiles/workflow_config/serdes_pkg.py",
+      "serdes-merge": "profiles/workflow_config/lpddr_merge__pcie_merge__serdes_merge.py",
+      "serdes-pcb": "profiles/workflow_config/serdes_pcb.py"
+    }
+  }
+}

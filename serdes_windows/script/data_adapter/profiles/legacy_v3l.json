@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "id": "legacy-v3l",
+  "version": "1.0.0",
+  "extends": "base",
+  "columns": {},
+  "family_rules": {
+    "lpddr": [
+      {"field": "net_name", "pattern": "(?:^|_)M[0-9]+_(?:CH[A-Z]+_)?(?:DQ|DQS|CA|CK|CS|RESET|WCK|DM|DBI)", "weight": 14},
+      {"field": "signal_type", "pattern": "^(?:DQ|DQS|CA|CK|CS|RESET|WCK|DM|DBI)", "weight": 8},
+      {"field": "filename", "pattern": "LPDDR|DDR", "weight": 1}
+    ],
+    "pcie": [
+      {"field": "net_name", "pattern": "PCIE.*(?:RX|TX)|(?:RX|TX).*PCIE", "weight": 14},
+      {"field": "group", "pattern": "^(?:RX|TX)[0-9]+$", "weight": 8},
+      {"field": "filename", "pattern": "PCIE", "weight": 1}
+    ],
+    "serdes": [
+      {"field": "net_name", "pattern": "SERDES|(?:^|[^A-Z0-9])SDS[0-9]*(?:[^A-Z0-9]|$)", "weight": 16},
+      {"field": "filename", "pattern": "SERDES|SDS", "weight": 1}
+    ],
+    "pll_clk": [
+      {"field": "net_name", "pattern": "(?:^|[_\\-.])(?:PLL|CLK|CLOCK)[A-Z0-9]*(?:$|[_\\-.])", "weight": 18},
+      {"field": "group", "pattern": "PLL|CLK|CLOCK", "weight": 10},
+      {"field": "filename", "pattern": "PLL|CLK|CLOCK", "weight": 1}
+    ]
+  },
+  "network_contracts": {
+    "lpddr": {
+      "pcb": {
+        "unmatched_policy": "reject",
+        "rules": [
+          {
+            "id": "v3l-lpddr-pcb",
+            "pattern": "^(?P<controller>M[0-9]+)_(?P<body>.+)$",
+            "emit": {"logical_id": "lpddr:{controller}:{a_pin}"}
+          }
+        ]
+      },
+      "pkg": {
+        "unmatched_policy": "reject",
+        "rules": [
+          {
+            "id": "v3l-lpddr-pkg",
+            "pattern": "^(?P<controller>M[0-9]+)_(?P<body>.+)$",
+            "emit": {"logical_id": "lpddr:{controller}:{a_pin}"}
+          }
+        ]
+      }
+    },
+    "pcie": {
+      "pcb": {
+        "unmatched_policy": "reject",
+        "rules": [
+          {
+            "id": "v3l-pcie-pcb-ac",
+            "pattern": "^PCIE_(?P<direction>RX|TX)_AC_D(?P<polarity>P|N)<(?P<lane>[0-9]+)>$",
+            "emit": {
+              "logical_id": "pcie:{direction}:{lane}:{polarity}",
+              "group": "{direction}{lane}",
+              "signal_type": "DIFF_{polarity}",
+              "polarity": "{polarity}",
+              "segment": "ac"
+            }
+          },
+          {
+            "id": "v3l-pcie-pcb-direct",
+            "pattern": "^PCIE_(?P<direction>RX|TX)_D(?P<polarity>P|N)<(?P<lane>[0-9]+)>$",
+            "emit": {
+              "logical_id": "pcie:{direction}:{lane}:{polarity}",
+              "group": "{direction}{lane}",
+              "signal_type": "DIFF_{polarity}",
+              "polarity": "{polarity}",
+              "segment": "direct"
+            }
+          }
+        ]
+      },
+      "pkg": {
+        "unmatched_policy": "reject",
+        "rules": [
+          {
+            "id": "v3l-pcie-pkg",
+            "pattern": "^PCIE_(?P<direction>RX|TX)(?P<lane>[0-9]+)_(?P<polarity>P|N)$",
+            "emit": {
+              "logical_id": "pcie:{direction}:{lane}:{polarity}",
+              "group": "{direction}{lane}",
+              "signal_type": "DIFF_{polarity}",
+              "polarity": "{polarity}",
+              "segment": "package"
+            }
+          }
+        ]
+      }
+    },
+    "serdes": {
+      "pcb": {
+        "unmatched_policy": "reject",
+        "rules": [
+          {
+            "id": "v3l-serdes-pcb",
+            "pattern": "^(?:SERDES|SDS)[_\\-.]?(?P<macro>[0-9]*)[_\\-.]+(?P<direction>RX|TX)[_\\-.]?(?P<lane>[0-9]+)[_\\-.]+D?(?P<polarity>P|N)$",
+            "emit": {
+              "logical_id": "serdes:{macro}:{direction}:{lane}:{polarity}",
+              "group": "SDS{macro}_{direction}{lane}",
+              "signal_type": "DIFF_{polarity}",
+              "polarity": "{polarity}",
+              "segment": "board"
+            }
+          }
+        ]
+      },
+      "pkg": {
+        "unmatched_policy": "reject",
+        "rules": [
+          {
+            "id": "v3l-serdes-pkg",
+            "pattern": "^(?:SERDES|SDS)[_\\-.]?(?P<macro>[0-9]*)[_\\-.]+(?P<direction>RX|TX)[_\\-.]?(?P<lane>[0-9]+)[_\\-.]+D?(?P<polarity>P|N)$",
+            "emit": {
+              "logical_id": "serdes:{macro}:{direction}:{lane}:{polarity}",
+              "group": "SDS{macro}_{direction}{lane}",
+              "signal_type": "DIFF_{polarity}",
+              "polarity": "{polarity}",
+              "segment": "package"
+            }
+          }
+        ]
+      }
+    },
+    "pll_clk": {
+      "pcb": {
+        "unmatched_policy": "reject",
+        "rules": [
+          {
+            "id": "v3l-clk-pcb",
+            "pattern": "^(?P<clock>.*(?:PLL|CLK|CLOCK).*)_D?(?P<polarity>P|N)$",
+            "emit": {
+              "logical_id": "pll_clk:{a_pin}",
+              "signal_type": "DIFF_{polarity}",
+              "polarity": "{polarity}",
+              "segment": "board"
+            }
+          }
+        ]
+      },
+      "pkg": {
+        "unmatched_policy": "reject",
+        "rules": [
+          {
+            "id": "v3l-clk-pkg",
+            "pattern": "^(?P<clock>.*(?:PLL|CLK|CLOCK).*)_D?(?P<polarity>P|N)$",
+            "emit": {
+              "logical_id": "pll_clk:{a_pin}",
+              "signal_type": "DIFF_{polarity}",
+              "polarity": "{polarity}",
+              "segment": "package"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "component_role_rules": [
+    {"refdes_pattern": "^J", "role": "CONNECTOR"},
+    {"refdes_pattern": "^U5$", "role": "SOC"},
+    {"refdes_pattern": "^U(?!5$)", "role": "DEVICE"}
+  ],
+  "defaults": {
+    "partition": "DEFAULT"
+  }
+}

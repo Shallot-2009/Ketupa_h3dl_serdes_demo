@@ -4,6 +4,14 @@
 *.md text eol=lf
 *.json text eol=lf
 *.so binary
+*.pyd binary
+*.exe binary
+*.bat -text whitespace=cr-at-eol
+LICENSE text eol=lf
+CORE_SHA256SUMS text eol=lf
+SHA256SUMS text eol=lf
+cds_env text eol=lf
+serdes_windows/input/** -text
 *.xlsx binary
 *.brd binary
 *.sip binary
