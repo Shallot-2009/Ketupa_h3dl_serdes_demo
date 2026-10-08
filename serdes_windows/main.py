@@ -8,29 +8,42 @@ import sys
 
 sys.dont_write_bytecode = True
 PROJECT_ROOT = Path(__file__).resolve().parent
+INPUT_ROOT = PROJECT_ROOT / "input"
+
 from modules.product_controller import run_saved_configuration
 
 SELECTIONS = (("serdes", "Merge"),)
-INPUTS = {"default": {
-    "pcb_layout": str(PROJECT_ROOT / "input/PCB/pcb/112G_224G_Serdes_PCB.brd"),
-    "pcb_stackup": str(PROJECT_ROOT / "input/PCB/stackup/112G_224G_Serdes_PCB_stackup.xml"),
-    "pcb_netlist": str(PROJECT_ROOT / "input/PCB/netlist"),
-    "pcb_placement": str(PROJECT_ROOT / "input/PCB/placement"),
-    "pkg_layout": str(PROJECT_ROOT / "input/PKG/pkg/112G_224G_Serdes_PKG.sip"),
-    "pkg_stackup": str(PROJECT_ROOT / "input/PKG/stackup/112G_224G_Serdes_PKG_stackup.xml"),
-    "pkg_netlist": str(PROJECT_ROOT / "input/PKG/netlist"),
-    "connector_3dcomp": str(PROJECT_ROOT / "input/Connector/connector/Stripline_connector_1p0mm_110GHz.a3dcomp"),
-}}
+INPUTS = {
+    "default": {
+        "pcb_layout": str(INPUT_ROOT / "PCB/pcb/112G_224G_Serdes_PCB.brd"),
+        "pcb_stackup": str(INPUT_ROOT / "PCB/stackup/112G_224G_Serdes_PCB_stackup.xml"),
+        "pcb_netlist": str(INPUT_ROOT / "PCB/netlist"),
+        "pcb_placement": str(INPUT_ROOT / "PCB/placement"),
+        "pkg_layout": str(INPUT_ROOT / "PKG/pkg/112G_224G_Serdes_PKG.sip"),
+        "pkg_stackup": str(INPUT_ROOT / "PKG/stackup/112G_224G_Serdes_PKG_stackup.xml"),
+        "pkg_netlist": str(INPUT_ROOT / "PKG/netlist"),
+        "connector_3dcomp": str(
+            INPUT_ROOT / "Connector/connector/Stripline_connector_1p0mm_110GHz.a3dcomp"
+        ),
+    }
+}
 RUN_OPTIONS = {
-    "prefix": "ALL", "corps": "\\", "mode": 0,
-    "dry_run": False, "signoff": False,
-    "preprocess": False, "preprocess_entry": "py",
-    "parallel_groups": "", "max_workers": None,
+    "prefix": "ALL",
+    "corps": "\\",
+    "mode": 0,
+    "dry_run": False,
+    "signoff": False,
+    "preprocess": False,
+    "preprocess_entry": "py",
+    "parallel_groups": "",
+    "max_workers": None,
 }
 
 
 def main(argv=None):
-    return run_saved_configuration(PROJECT_ROOT, SELECTIONS, INPUTS, RUN_OPTIONS, argv)
+    return run_saved_configuration(
+        PROJECT_ROOT, SELECTIONS, INPUTS, RUN_OPTIONS, argv
+    )
 
 
 if __name__ == "__main__":

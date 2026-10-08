@@ -6,7 +6,7 @@ v1.0.1 · Windows x64 · CPython 3.12
 
 联系 / Contact: asenjoaupa@gmail.com · 3405802009@qq.com
 
-PCB、PKG、Merge 三场景。此发行版由原 Windows 工作流构建，与 `serdes_linux` 对应；原工程没有被覆盖。公共 GitHub 仅发布原生黑盒，白盒留在作者本地。使用须遵守附带 `LICENSE`。
+提供 PCB、PKG、Merge 三场景。公共 GitHub 发布原生黑盒，白盒留在作者本地。使用须遵守附带 `LICENSE`。
 
 ## 1. 环境与激活 / Requirements
 
@@ -28,7 +28,7 @@ CADENCE_TOOLS_BIN=C:\Cadence\SPB_25.1\tools\bin
 
 `KETUPA_LAUNCHER` 供 EXE / BAT 启动器使用；也可由系统 `OPENKETUPA_HOME` 或 PATH 发现。`PYTHON_EXE` 是兼容项：如填写，应指向同一 Ketupa 的 `runtime\python.exe`，启动器会定位相邻 `ketupa.com`，不会直接绕过授权执行。Cadence 使用 `report.exe`；多个目录用 `;` 分隔。显式进程环境变量优先于 `cds_env`。AEDT 沿用原 Windows 引擎的安装发现；需要时配置 `KETUPA_ANSYSEDT` 指向实际 AnsysEM 安装目录。
 
-输入只来自 GitHub Linux Demo 的公开 `input`，逐文件 SHA-256 相同。Windows 默认 PKG 输入是同目录的 SIP；Linux 默认 AEDB。保留 AEDB 文件是为了与公开输入完全对应，并不意味着 Windows SIP 预处理入口已变成 AEDB 接口。包内不附预生成 Excel，也不包含本地客户输入。
+包内附示例版图、叠层和连接器输入；首次建模前先生成对应网络表与放置表。包内不附预生成 Excel，也不包含本地客户输入。
 
 ## 3. 运行 / Run
 
@@ -57,14 +57,14 @@ ketupa run -sh main.py -- run-all --dry-run
 
 `main.py` 的 `SELECTIONS` 可组合三场景，支持七种非空组合；场景间顺序执行，场景内按网络组并行。`INPUTS` 是实际路径；`RUN_OPTIONS` 包含 `mode`、`prefix`、`corps`、`preprocess`、`signoff`、`parallel_groups`、`max_workers` 等。显式 CLI 输入覆盖保存值；不要把其他设计的网络表配给当前版图。
 
-数据命名规则复用 Linux 的共同 SerDes 分类注册表；Windows 保留 `report.exe` 调用。可选规则配置与说明命令：
+可选规则配置与说明命令：
 
 ```bat
 ketupa run -sh script/05_DataAdapter.py --help
 ketupa run -sh script/05_DataAdapter.py self-test
 ```
 
-适配器沿用确定性解析和审核后的资料配置；在线 LLM 只可生成待审核草稿，不自动决定运行时网络连接。Windows 不使用 Linux 专用的 Cadence 报告快照回退。
+适配器使用确定性解析和审核后的资料配置；在线 LLM 只可生成待审核草稿，不自动决定运行时网络连接。
 
 ## 4. 模型与文件 / Models and files
 
@@ -87,7 +87,7 @@ README.md    本说明
 LICENSE      Demo 使用条款，不是激活文件
 ```
 
-`output`、`release` 不随包发布，运行时生成。任务日志和结果依照原 Windows 引擎按场景／任务／网络组隔离；自动 S 参数导出与报表导出仍为独立步骤。不得把 Linux 历史 output 当作 Windows 新生成的结果。
+`output`、`release` 在运行时生成。任务日志和结果按场景／任务／网络组隔离；自动 S 参数导出与报表导出仍为独立步骤。
 
 保护方式：核心全部 Cython 原生编译为 `.pyd`，不发布核心 `.py/.pyc`、C 中间文件、调试符号或构建密钥；录制数据使用 AES-GCM 密文封装于原生模块。需要交给 AEDT 内置解释器的小型报表桥接脚本仅在运行时临时生成。**原生编译和加密封装提高分析成本，不保证无法逆向、内存提取或被管理员修改。** 校验和用于检测改动，不等同于发布者数字签名。
 
@@ -95,8 +95,8 @@ LICENSE      Demo 使用条款，不是激活文件
 
 本次离线开发态检查：三场景白盒／原生模块配置与录制参数一致；`list/audit/doctor` 输出一致；七种选择组合及 CLI 参数解析一致；输入与 GitHub 字节一致；分类适配器正反例自检通过；核心无源码泄漏，原生文件为 AMD64 PE。最终加固包另做普通 Python 拒绝测试及交付文件校验。
 
-**未完成项：** 本机试用 lic 已激活，但安装许可证服务的管理员请求被拒绝，因此最终加固包的正式授权正向启动、首次真实预处理、三场景 Mode 0 AEDT 建模、Mode 1 求解及电气 signoff 尚未验收。这是待实机验收版本，不是“全部仿真验证通过”的正式结论。不得沿用 Linux 的 6 项建模成功记录作为 Windows 证据。
+**实机验收状态：** 当前环境未完成许可证服务安装，因此正式授权启动、首次真实预处理、三场景 Mode 0 AEDT 建模、Mode 1 求解及电气 signoff 尚未验收。
 
 完整性检查无需启动 EDA：`python script/03_Verify.py`。正式命令若报许可证服务未启用，请先在 License Manager 启用服务；不要通过更改权限、替换授权模块或关闭安全软件来规避校验。
 
-English summary: Windows-native PCB/PKG/Merge demo, matching public Linux inputs and editable entry contracts. Core source is not published. Configure the installed licensed Ketupa launcher and Cadence tools, preprocess first, then dry-run/build. Offline developmental source/native parity passed; final licensed positive startup and real modeling/solving remain unqualified pending the licensing service. Compilation and AES-GCM template protection are not a guarantee against reverse engineering.
+English summary: Windows-native PCB/PKG/Merge demo with editable entry contracts. Core source is not published. Configure the licensed Ketupa launcher and Cadence tools, preprocess first, then build. Offline source/native parity passed; licensed startup and real modeling/solving remain pending. Compilation and AES-GCM template protection do not guarantee resistance to reverse engineering.

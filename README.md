@@ -15,7 +15,7 @@
 | Linux x86_64 | [serdes_linux](serdes_linux/README.md) | `.so` | 保留原有 Linux 验收记录，见下文 |
 | Windows x64 | [serdes_windows](serdes_windows/README.md) | `.pyd` | 离线白盒／原生模块一致性检查通过；正式授权启动和三场景实机建模仍待验收 |
 
-两者使用同一份公开的版图、叠层和连接器输入，均有 PCB / PKG / Merge 三种场景、`main.py` 配置入口和公开预处理脚本。**Linux 的建模成功记录不是 Windows 的验收结果。** Windows 使用 SIP 入口及 `report.exe`；Linux 默认使用 AEDB 入口。不要混用 `.so` 和 `.pyd`。
+两个平台均提供 PCB / PKG / Merge 三种场景、`main.py` 配置入口和预处理脚本。请使用对应平台的原生模块。
 
 ### Windows 快速开始
 
@@ -31,7 +31,7 @@ ketupa run -sh main.py -- --dry-run
 ketupa run -sh main.py
 ```
 
-也可以双击 `script/00_Preprocess.exe` 预处理，日志写入 `output/logs/preprocessing`。默认建模为 Merge / Mode 0；选择单独场景使用 `run serdes pcb`、`run serdes pkg` 或 `run serdes merge`。公开的 Windows 项目不包含核心源码、客户输入、私钥、已激活许可证或运行结果。下方既有 shell 命令和物理验收记录专指 Linux。
+也可以双击 `script/00_Preprocess.exe` 预处理，日志写入 `output/logs/preprocessing`。默认建模为 Merge / Mode 0；选择单独场景使用 `run serdes pcb`、`run serdes pkg` 或 `run serdes merge`。公开的 Windows 项目不包含核心源码、客户输入、私钥、已激活许可证或运行结果。下方为 Linux 使用说明。
 
 ## 环境与下载
 

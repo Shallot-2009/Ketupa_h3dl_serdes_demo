@@ -15,7 +15,7 @@ Contact: asenjoaupa@gmail.com · 3405802009@qq.com
 | Linux x86_64 | [serdes_linux](serdes_linux/README.md) | `.so` | Existing Linux acceptance evidence retained below |
 | Windows x64 | [serdes_windows](serdes_windows/README.md) | `.pyd` | Offline source/native parity passed; licensed startup and real three-case modeling acceptance pending |
 
-Both use the same public layout, stackup and connector input files, three workflows, editable `main.py` and preprocessing scripts. Linux physical results do not qualify Windows. Windows defaults to SIP with `report.exe`; Linux defaults to AEDB. Native binaries are not interchangeable across platforms.
+Both platforms provide PCB, PKG and Merge workflows, an editable `main.py`, and preprocessing scripts. Use the native modules for the selected platform.
 
 ### Windows quick start
 
@@ -31,7 +31,7 @@ ketupa run -sh main.py -- --dry-run
 ketupa run -sh main.py
 ```
 
-Alternatively double-click `script/00_Preprocess.exe`; logs go to `output/logs/preprocessing`. Default: Merge / Mode 0. Individual cases use `run serdes pcb`, `run serdes pkg`, or `run serdes merge`. No core source, customer input, private keys, activated licenses or output artifacts are published in the Windows folder. Existing shell examples and physical acceptance records below refer to Linux only.
+Alternatively double-click `script/00_Preprocess.exe`; logs go to `output/logs/preprocessing`. Default: Merge / Mode 0. Individual cases use `run serdes pcb`, `run serdes pkg`, or `run serdes merge`. No core source, customer input, private keys, activated licenses or output artifacts are published in the Windows folder. Linux instructions follow below.
 
 ## Requirements and downloads
 
