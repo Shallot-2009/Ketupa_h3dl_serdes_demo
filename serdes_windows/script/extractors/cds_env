@@ -1,4 +1,4 @@
-# Configure once on the target Windows PC. Do not copy licenses between machines.
+# Optional local overrides; blank values use the installed Ketupa and system tool discovery.
 KETUPA_LAUNCHER=
 PYTHON_EXE=
 CADENCE_TOOLS_BIN=

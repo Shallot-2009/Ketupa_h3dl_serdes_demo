@@ -46,6 +46,21 @@ def _paths(value):
     )
 
 
+def _adjacent_spb_installs(value):
+    """Find other installed SPB releases next to a configured Cadence root."""
+    text = os.path.expandvars(str(value).strip().strip('"'))
+    if not text:
+        return ()
+    anchor = Path(text).expanduser()
+    parent = anchor.parent if anchor.name.casefold().startswith("spb") else anchor
+    if not parent.is_dir():
+        return ()
+    return tuple(
+        path for path in parent.iterdir()
+        if path.is_dir() and path.name.casefold().startswith("spb")
+    )
+
+
 def cadence_export_candidates():
     configured = _settings()
     values = []
@@ -56,6 +71,9 @@ def cadence_export_candidates():
     located = shutil.which("report.exe")
     if located:
         values.append(located)
+    for name in ("CDSROOT", "CADENCE", "CDS_HOME", "SPB_HOME"):
+        value = os.environ.get(name, "").strip() or configured.get(name, "").strip()
+        values.extend(str(path) for path in _adjacent_spb_installs(value))
 
     unique = []
     seen = set()
@@ -75,10 +93,34 @@ def cadence_export_candidates():
 def resolve_cadence_export_command(design=None):
     candidates = cadence_export_candidates()
     required = cadence_design_version(design) if design is not None else None
-    executable = next((path for path in candidates if path.is_file() and
-                       (required is None or cadence_tool_version(path) is None or cadence_tool_version(path) >= required)), None)
-    if executable is not None:
-        return executable
+    compatible = [
+        (path, cadence_tool_version(path))
+        for path in candidates
+        if path.is_file()
+    ]
+    compatible = [
+        (path, version)
+        for path, version in compatible
+        if required is None or version is None or version >= required
+    ]
+    configured = _settings().get("CADENCE_TOOLS_BIN", "").strip()
+    environment = os.environ.get("CADENCE_TOOLS_BIN", "").strip()
+    cdsroot = os.environ.get("CDSROOT", "").strip()
+    inherited_default = bool(
+        environment and cdsroot
+        and Path(environment).resolve().is_relative_to(Path(cdsroot).resolve())
+    )
+    explicit = configured or ("" if inherited_default else environment)
+    for item in explicit.split(os.pathsep):
+        for candidate in _paths(item):
+            selected = candidate.resolve()
+            if any(path == selected for path, _version in compatible):
+                return selected
+    versioned = [(path, version) for path, version in compatible if version is not None]
+    if versioned:
+        return max(versioned, key=lambda item: item[1])[0]
+    if compatible:
+        return compatible[0][0]
     checked = "; ".join(str(path.parent) for path in candidates)
     raise FileNotFoundError(
         "Cadence tools were not found. Configure CADENCE_TOOLS_BIN, update "
