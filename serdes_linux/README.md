@@ -6,7 +6,7 @@
 
 版本 / Version: v1.0.1 · cp312 · ketupa-launch-v1 · distribution update 2026-10-07
 
-许可 / License: Proprietary. 发布二进制不等于授予源码、再分发或逆向许可；使用权由作者授权。
+许可 / License: [Ketupa 评估 EULA](../LICENSE)。发布二进制不等于授予源码、再分发或逆向许可；生产与付费交付需要单独商业协议。
 
 独立的 112G/224G SerDes 工程，只包含 PCB、PKG、Merge 三种工作流。Demo 版图、叠层、连接器模型随包提供，作者已确认可公开。本次分发不附三份 Excel 或其来源记录；首次建模前必须通过预处理在本机生成。没有 `main_N2009.py`，不包含母项目其他九种场景。
 

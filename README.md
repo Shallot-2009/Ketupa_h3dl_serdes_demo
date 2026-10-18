@@ -1,6 +1,6 @@
 # Ketupa H3DL SerDes Demo
 
-[简体中文](README.md) | [English](README_EN.md) | [许可](LICENSE)
+[简体中文](README.md) | [English](README_EN.md) | [评估 EULA](LICENSE)
 
 112G/224G SerDes 通道建模，支持 PCB、PKG 和 PCB–PKG Merge。版本 v1.0.1，Linux / Windows x64，CPython 3.12。
 
@@ -184,4 +184,4 @@ output/
 
 ## 许可
 
-本项目为专有评估 Demo，使用范围见 [LICENSE](LICENSE)。`main.py` 和 `script/` 可编辑，核心以原生扩展提供；原生编译不保证不可逆向。Ansys、Cadence 软件及其许可证需自行准备。
+本项目、配套 Ketupa Runtime 和随包提供的专有建模／求解器组件采用 [评估 EULA](LICENSE)。`main.py` 和 `script/` 可在评估范围内编辑；生产、付费交付、托管和更广泛的再分发需另签商业协议。已按旧许可取得的副本保留原有授权。核心以原生扩展提供；原生编译不保证不可逆向。Ansys、Cadence 软件及其许可证需自行准备。Release 的安装包是单独文件；更新仓库中的 EULA 不会改变已经下载的安装包内容，后续 Runtime 构建应将同版 EULA 随包提供并在安装时展示。

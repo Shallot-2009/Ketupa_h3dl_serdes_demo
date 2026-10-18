@@ -1,6 +1,6 @@
 # Ketupa H3DL SerDes Demo
 
-[简体中文](README.md) | [English](README_EN.md) | [License](LICENSE)
+[简体中文](README.md) | [English](README_EN.md) | [Evaluation EULA](LICENSE)
 
 HFSS 3D Layout modeling for 112G/224G SerDes channels: PCB, package and PCB–package Merge. Version v1.0.1, Linux / Windows x64, CPython 3.12.
 
@@ -173,4 +173,4 @@ Connector material-priority advisories remain. Successful modeling does not esta
 
 ## License
 
-This is a proprietary evaluation Demo; see [LICENSE](LICENSE). `main.py` and `script/` are editable. The core is distributed as native extensions; native compilation does not make reverse engineering impossible. Obtain Ansys and Cadence software and licenses separately.
+The Demo, matching Ketupa Runtime, and proprietary modeling/solver components distributed with them are governed by the [evaluation EULA](LICENSE). `main.py` and `script/` may be edited within its evaluation scope; production, paid delivery, hosting, and broader redistribution require a separate commercial agreement. Copies obtained under an earlier license retain their existing grants. The core is distributed as native extensions; native compilation does not make reverse engineering impossible. Obtain Ansys and Cadence software and licenses separately. Release installers are separate files: changing the repository EULA does not modify already-downloaded installers. Future Runtime builds should include and present the matching EULA during installation.

@@ -1,65 +1,84 @@
-Ketupa H3DL SerDes Demo — Proprietary Evaluation License 1.0
+Ketupa Evaluation End User License Agreement (EULA) 1.1
 Copyright (c) 2026 hongbo.li. All rights reserved.
 Contact: asenjoaupa@gmail.com / 3405802009@qq.com
 
-1. Scope
-This license applies to the original software, documentation and demonstration
-materials supplied by hongbo.li in this repository (the "Demo"). Separately
-identified third-party materials remain subject to their own applicable terms.
-This is a proprietary, limited-use license, NOT an open-source license.
+1. Products and priority
+This EULA covers the original Ketupa H3DL SerDes Demo files in this repository,
+the Ketupa Runtime installers linked from this repository's Releases, and
+Ketupa proprietary native modeling and solver components distributed with
+those packages (together, the "Ketupa Products"). It does not license Ansys,
+Cadence, Python, open-source dependencies, customer inputs, or other third-party
+materials. Separately identified third-party materials retain their own terms.
+A written commercial agreement or order signed by the copyright holder may
+grant additional rights and controls if it conflicts with this evaluation EULA.
+The activation file or entitlement controls the technical term and features;
+it is not a substitute for this agreement.
+Rights already granted under an earlier license for a copy obtained before
+this EULA was published remain in effect for that copy.
 
-2. Permitted use
-You may download and run the Demo for personal learning, research, and internal
-non-production evaluation, including evaluation within a company. You may edit
-main.py, the exposed script/ files, and input data for those purposes, and retain
-the engineering results you generate. This permission does not grant rights in
-third-party input data, tools, models or patents.
-You may share an unmodified copy of the Demo, provided this license, notices and
-attribution remain intact. You may view and fork this public repository using
-GitHub's normal functionality, subject to GitHub's applicable terms. These
-permissions do not authorize wider distribution of modified versions.
+2. Evaluation license
+Subject to compliance with this EULA and a valid entitlement where required,
+you may download, install, and run the Ketupa Products for personal learning,
+research, and internal non-production evaluation, including evaluation within
+a company. You may edit the Demo's main.py, exposed script/ files, and your own
+input data for those purposes. You may retain the engineering results you
+generate, subject to any rights in the inputs and third-party tools. You may
+share an unmodified copy of the Demo with this EULA and all notices intact.
+This permission does not authorize redistribution of the separate Runtime
+installers or commercial solver components, except where the copyright holder
+expressly permits it in writing. GitHub's ordinary view and fork functions
+remain subject to GitHub's applicable terms.
 
-3. Protected core and restrictions
-The native libraries under serdes_linux/lib, serdes_linux/modules,
-serdes_linux/resource, serdes_windows/lib, serdes_windows/modules and
-serdes_windows/resource are
-provided in executable form only. No core-source license or obligation to supply
-source is granted. Except to the extent mandatory applicable law expressly
-permits notwithstanding this restriction, you must not reverse engineer,
-decompile or disassemble that core, attempt to recover its source, remove or
-circumvent its integrity checks, or modify its native binaries.
-Without prior written permission from the copyright holder, you may not sell,
-sublicense, redistribute modified copies, offer the Demo as a hosted service,
-or use it for commercial production or paid client delivery. Contact the author
-for a separate commercial or redistribution license.
+3. Restrictions and ownership
+The Ketupa Products are licensed, not sold. No core source-code license or
+obligation to supply source is granted for proprietary native components.
+Without prior written permission, you may not use them for commercial
+production or paid client delivery, sell or sublicense them, distribute
+modified Demo copies, redistribute the Runtime or proprietary solver
+components, or offer them as a hosted service. Except where mandatory law
+expressly permits otherwise, you may not reverse engineer, decompile,
+disassemble, or modify proprietary native components, recover their source,
+or bypass their integrity, activation, or entitlement checks. All rights not
+expressly granted are reserved.
 
-4. External dependencies
-This repository does not supply licenses for Ketupa, Ansys, Cadence or other
-third-party products. You must obtain and comply with all required third-party
-licenses. No permission to bypass third-party licensing or security is granted.
-Product names are trademarks of their respective owners. No vendor endorsement
-or affiliation is implied.
+4. Third-party rights and trademarks
+Open-source components bundled with a Runtime remain under their own licenses;
+nothing in this EULA narrows rights granted by those licenses. Keep applicable
+third-party notices. Obtain your own valid Ansys, Cadence, and other required
+software and model licenses. Product names and trademarks belong to their
+owners; no vendor endorsement or affiliation is implied. This EULA does not
+grant rights in third-party patents, data, designs, or engineering models.
 
-5. No warranty; engineering responsibility
-THE DEMO IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE COPYRIGHT HOLDER IS NOT
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM THE DEMO OR ITS USE.
-You are responsible for checking geometry, stackups, ports, materials, meshing,
-convergence, extracted models and electrical compliance before relying on results.
-Published checks are limited to the stated versions and scenarios, and are not
-certification, signoff or a guarantee for an arbitrary design.
+5. Engineering responsibility and warranty
+Check geometry, stackups, ports, materials, meshing, convergence, extracted
+models, and electrical compliance before relying on results. Published checks
+apply only to the stated versions and scenarios and are not signoff or
+certification of an arbitrary design. THE KETUPA PRODUCTS ARE PROVIDED "AS IS",
+WITHOUT WARRANTIES OF ANY KIND, INCLUDING MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE, NON-INFRINGEMENT, OR UNINTERRUPTED OPERATION, TO THE EXTENT
+PERMITTED BY APPLICABLE LAW.
 
-6. Termination
-Permissions terminate upon breach of this license. Stop using and distributing
-the Demo if your permissions terminate. Rights that cannot legally be excluded
-are unaffected. All rights not expressly granted are reserved.
+6. Liability and termination
+To the maximum extent permitted by applicable law, the copyright holder is
+not liable for claims, damages, or other liability arising from use of the
+Ketupa Products. Evaluation permission ends when its entitlement expires or
+when you breach this EULA. On termination, stop using and redistributing the
+Ketupa Products, except for rights that cannot legally be excluded. Existing
+rights in independently licensed third-party components are unaffected.
 
-中文摘要（方便理解，条款以英文正文为准）
-本项目采用专有 Demo 评估许可，不是 MIT/GPL 等开源许可。允许学习、研究及
-企业内部非生产评估；允许修改 main.py、开放脚本和输入数据用于上述用途，
-并保留生成的工程结果。允许附带完整许可和署名分享未修改的 Demo，以及
-按照 GitHub 条款查看和 Fork。核心 lib/modules/resource 不开放源码，除
-适用法律强制允许的情形外，不得逆向、反编译、修改二进制或绕过完整性校验。
-商业生产、付费交付、托管服务、转授权和修改版分发需联系作者取得书面许可。
-EDA 软件与模型的第三方许可另行适用；Demo 按现状提供，不构成电气签核。
+7. Commercial licensing
+Production, paid delivery, broader redistribution, hosting, support, and
+service-level commitments require a separate written commercial agreement.
+Contact the copyright holder at the address above. No GitHub publication or
+trial activation grants these commercial rights by itself.
+Review these terms before downloading, installing, or using a current release;
+if you do not agree, do not install or use it.
+
+中文摘要（便于理解；如有歧义，以英文正文为准）
+本评估 EULA 涵盖仓库中的 H3DL SerDes Demo、该仓库 Release 链接的 Ketupa
+Runtime 安装包，以及随这些包分发的 Ketupa 专有建模和求解器组件；第三方软件、
+开源依赖、EDA 工具和客户数据仍按其各自条款处理。允许个人学习、研究和企业
+内部非生产评估；可编辑 Demo 的 main.py、开放脚本和自有输入并保留生成结果，
+可在附带完整条款和署名时分享未修改的 Demo。Runtime 安装包、专有求解器、
+修改版 Demo 的再分发，以及生产、付费交付和托管服务需另行书面授权。
+许可证密钥只控制技术期限和功能，不替代 EULA。商业权利以另行签署的协议为准。

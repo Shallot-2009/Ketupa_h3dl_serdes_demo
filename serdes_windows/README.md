@@ -6,7 +6,7 @@ v1.0.1 · Windows x64 · CPython 3.12
 
 联系 / Contact: asenjoaupa@gmail.com · 3405802009@qq.com
 
-提供 PCB、PKG、Merge 三场景。公共 GitHub 发布原生黑盒，白盒留在作者本地。使用须遵守附带 `LICENSE`。
+提供 PCB、PKG、Merge 三场景。公共 GitHub 发布原生黑盒，白盒留在作者本地。使用须遵守附带的评估 [EULA](LICENSE)；生产与付费交付需要单独商业协议。
 
 ## 1. 环境与激活 / Requirements
 
