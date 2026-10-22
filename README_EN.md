@@ -4,6 +4,8 @@
 
 HFSS 3D Layout modeling for 112G/224G SerDes channels: PCB, package and PCB–package Merge. Version v1.0.1, Linux / Windows x64, CPython 3.12.
 
+[Watch the H3DL SerDes modeling demo](assets/ketupa-h3dl-serdes-demo.mp4)
+
 Author: Asenjo.HB.L · China, Shanghai
 
 Contact: asenjoaupa@gmail.com · 3405802009@qq.com

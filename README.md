@@ -4,6 +4,8 @@
 
 112G/224G SerDes 通道建模，支持 PCB、PKG 和 PCB–PKG Merge。版本 v1.0.1，Linux / Windows x64，CPython 3.12。
 
+[观看 H3DL SerDes 建模演示视频](assets/ketupa-h3dl-serdes-demo.mp4)
+
 作者：Asenjo.HB.L · China, Shanghai
 
 联系：asenjoaupa@gmail.com · 3405802009@qq.com
